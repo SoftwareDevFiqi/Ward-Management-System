@@ -1,0 +1,202 @@
+﻿@model TimelessTechnicians.UI.Models.Login
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .contact-details, .social-media {
+            margin: 10px;
+        }
+
+        .contact-details h4, .social-media h4 {
+            margin-bottom: 10px;
+        }
+
+        .contact-details p, .social-media a {
+            margin: 5px 0;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .social-media a {
+            display: flex;
+            align-items: center;
+        }
+
+        .social-media a i {
+            margin-right: 8px;
+        }
+
+        .social-media a:hover {
+            text-decoration: underline;
+        }
+
+        .login-background {
+            background-image: url('/images/last.jpeg');
+            width: 400px;
+            height: 409px;
+            padding: 20px;
+            border-radius: 10px;
+            color: lightblue; /* Change text color to light blue */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .login-background img {
+            max-width: 100%;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .image-grid img {
+            width: 230px;
+            height: 200px;
+        }
+
+        body {
+            background-image: url('/images/basic.jpeg');
+            background-size: cover; /* Adjusts the image to cover the entire background */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            /* background-attachment: fixed; */ /* Keeps the background image fixed during scrolling */
+            background-size: 100% 100%;
+            /* background-opacity:0.3; */
+            color: lightblue; /* Change text color to light blue */
+        }
+
+        h4, label, .form-check-label {
+            color: lightblue; /* Change text color to light blue */
+        }
+    </style>
+</head>
+
+<body>
+    <hr />
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 login-background">
+            <h4>Login</h4>
+            <form asp-action="Login" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserNameorEmail, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.UserNameorEmail, new { @class = "form-control", placeholder = "Enter username or email" })
+                    @Html.ValidationMessageFor(m => m.UserNameorEmail, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                    <div class="password-container" style="display: flex; align-items: center;">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "password", style = "flex: 1;" })
+                        <button type="button" class="btn btn-outline-secondary" id="toggle-password" style="margin-left: 10px;">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox">
+                        @Html.CheckBoxFor(m => m.RememberMe) Remember me
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn btn-primary" />
+                </div>
+
+                <div>
+                    <a asp-action="Register" class="btn btn-secondary">
+                        <i class="fas fa-user-plus"></i> Back to Register
+                    </a>
+                </div>
+
+                <div>
+                    <a asp-action="ChangePassword" class="btn btn-secondary">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                </div>
+
+                <div>
+                    <a asp-action="ChangeEmail" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Change Email
+                    </a>
+                </div>
+
+
+
+            </form>
+        </div>
+        <div class="col-md-4">
+            <div class="image-grid">
+                <img src="~/images/pic.jpg" alt="Image 1" />
+                <img src="~/images/pic2.jpg" alt="Image 2" />
+                <img src="~/images/pic3.jpg" alt="Image 3" />
+                <img src="~/images/Hospital.jpg" alt="Image 4" />
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="contact-details">
+                <h4>Contact Us</h4>
+                <p>Email: contact@example.com</p>
+                <p>Phone: +123 456 7890</p>
+                <p>Address: 123 Main Street, City, Country</p>
+            </div>
+            <div class="social-media">
+                <h4>Follow Us</h4>
+                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+                <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var passwordInput = document.getElementById('password');
+            var togglePasswordButton = document.getElementById('toggle-password');
+            var passwordIcon = togglePasswordButton.querySelector('i');
+
+            togglePasswordButton.addEventListener('click', function () {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    passwordIcon.classList.remove('bi-eye-slash');
+                    passwordIcon.classList.add('bi-eye');
+                } else {
+                    passwordInput.type = 'password';
+                    passwordIcon.classList.remove('bi-eye');
+                    passwordIcon.classList.add('bi-eye-slash');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

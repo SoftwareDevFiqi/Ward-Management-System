@@ -1,0 +1,81 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.ViewModel.ScheduledMedicationListViewModel>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Scheduled Medications";
+}
+
+<h2 class="text-center my-4">@ViewData["Title"]</h2>
+
+<div class="container">
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Medication</th>
+                        <th>Dosage</th>
+                        <th>Administered Date</th>
+                        <th>Administered By</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var medication in Model)
+                    {
+                        <tr>
+                            <td>@medication.MedicationName</td>
+                            <td>@medication.Dosage</td>
+                            <td>@medication.AdministeredDate.ToString("dd/MM/yyyy")</td>
+                            <td>@medication.AdministeredBy</td>
+                            <td>
+                                <span class="badge @(medication.ScheduledMedicationStatus == "Active" ? "bg-success" : "bg-warning")">
+                                    @medication.ScheduledMedicationStatus
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="EditScheduledMedication" asp-route-id="@medication.ScheduledMedicationId" class="btn btn-sm btn-primary">
+                                        Edit
+                                    </a>
+                                    <form asp-action="DeleteScheduledMedication" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@medication.ScheduledMedicationId" />
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center" role="alert">
+            No scheduled medications available.
+        </div>
+    }
+</div>
+
+<style>
+    .table {
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    .table th, .table td {
+        vertical-align: middle; /* Center vertically */
+    }
+
+    .table-primary {
+        background-color: #007bff; /* Customize as needed */
+        color: white;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1; /* Add hover effect */
+    }
+</style>

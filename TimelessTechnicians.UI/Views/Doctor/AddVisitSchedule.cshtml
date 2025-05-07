@@ -1,0 +1,74 @@
+﻿@model TimelessTechnicians.UI.Models.PatientVisitSchedule
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Add Visit Schedule</h2>
+
+    <form asp-action="AddVisitSchedule" method="post" class="form-horizontal">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label asp-for="AdmitPatientId" class="control-label">Select Patient</label>
+            <div>
+                <select asp-for="AdmitPatientId" class="form-control" asp-items="ViewBag.AdmittedPatients">
+                    <option value="">-- Select Patient --</option>
+                </select>
+                <span asp-validation-for="AdmitPatientId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ScheduledDate" class="control-label">Scheduled Date</label>
+            <div>
+                <input asp-for="ScheduledDate" class="form-control" type="date" />
+                <span asp-validation-for="ScheduledDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="VisitReason" class="control-label">Reason for Visit</label>
+            <div>
+                <input asp-for="VisitReason" class="form-control" />
+                <span asp-validation-for="VisitReason" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">Add Visit Schedule</button>
+            <a asp-action="ListVisitSchedules" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<style>
+    /* Custom styles for the Add Visit Schedule page */
+    .container {
+        max-width: 600px; /* Center the form and limit its width */
+        border-radius: 10px; /* Rounded corners for the container */
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        padding: 20px; /* Padding for better spacing */
+        background: #f9f9f9; /* Light background color */
+    }
+
+    h2 {
+        margin-bottom: 30px; /* Spacing below the title */
+    }
+
+    .form-group {
+        margin-bottom: 20px; /* Consistent spacing between form groups */
+    }
+
+    .btn {
+        width: 48%; /* Make buttons equal width */
+        margin-right: 2%; /* Spacing between buttons */
+    }
+
+        .btn:last-child {
+            margin-right: 0; /* Remove margin for the last button */
+        }
+</style>

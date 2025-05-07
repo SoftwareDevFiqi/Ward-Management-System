@@ -1,0 +1,54 @@
+﻿@model TimelessTechnicians.UI.ViewModel.DoctorAdviceRequestViewModel
+@{
+    ViewData["Title"] = "Edit Advice Request";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-group">
+    <a href="@Url.Action("ListAdviceRequests", "Nurse")" class="btn btn-secondary">Back to List</a>
+</div>
+
+<form asp-action="EditAdviceRequest" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="NurseId" class="control-label">Nurse</label>
+        <select asp-for="NurseId" class="form-control" disabled>
+            <option value="@Model.NurseId">@Model.NurseId</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DoctorId" class="control-label">Doctor</label>
+        <select asp-for="DoctorId" class="form-control" asp-items="Model.DoctorList">
+            <option value="">Select a Doctor</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PatientId" class="control-label">Patient</label>
+        <select asp-for="PatientId" class="form-control" asp-items="Model.PatientList">
+            <option value="">Select a Patient</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RequestDetails" class="control-label">Request Details</label>
+        <textarea asp-for="RequestDetails" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RequestDate" class="control-label">Request Date</label>
+        <input asp-for="RequestDate" class="form-control" type="date" />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update Request</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        // Optional: Add any necessary client-side validation or scripts
+    </script>
+}

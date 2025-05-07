@@ -1,0 +1,296 @@
+﻿/* Base font size for the root element */
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+/* Body styles */
+body {
+    margin-bottom: 60px; /* Space for footer */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Full height for body and html */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Container styles */
+.container-fluid {
+    flex: 1; /* Ensures it takes available space */
+}
+
+/* Footer styling */
+.footer {
+    background-color: #f8f9fa;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Button focus styles */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Responsive font sizes and paddings */
+@media (max-width: 575.98px) {
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    body {
+        font-size: 15px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    body {
+        font-size: 16px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .card {
+        margin: 10px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    body {
+        font-size: 17px;
+    }
+
+    .container {
+        padding: 25px;
+    }
+
+    .card {
+        margin: 15px;
+    }
+}
+
+@media (min-width: 1200px) {
+    body {
+        font-size: 18px;
+    }
+
+    .container {
+        padding: 30px;
+    }
+
+    .card {
+        margin: 20px;
+    }
+}
+
+@media (min-width: 1400px) {
+    body {
+        font-size: 20px;
+    }
+
+    .container {
+        padding: 40px;
+    }
+
+    .card {
+        margin: 25px;
+    }
+}
+
+/* Sidebar responsiveness */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%); /* Hide sidebar by default on mobile */
+    }
+
+        .sidebar.active {
+            transform: translateX(0); /* Show sidebar when active */
+        }
+
+    .sidebar-toggle {
+        display: block; /* Show toggle button on mobile */
+    }
+}
+
+/* Dropdown styles */
+@media (min-width: 768px) {
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-toggle::after {
+        display: none; /* Hide default arrow */
+    }
+}
+
+@media (max-width: 767px) {
+    .nav-item.dropdown .dropdown-toggle::after {
+        display: inline-block; /* Show default arrow on mobile */
+    }
+
+    .dropdown-menu {
+        display: none; /* Hide dropdown initially on mobile */
+    }
+
+    .nav-item.dropdown.open .dropdown-menu {
+        display: block; /* Show dropdown on click */
+    }
+}
+
+/* Bouncing animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-30px);
+    }
+
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Password toggle styles */
+.password-container {
+    position: relative;
+}
+
+#password {
+    padding-right: 2.5rem;
+}
+
+#toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    border-radius: 0 4px 4px 0;
+}
+
+/* Button styles */
+.btn-outline-secondary {
+    border: 1px solid #ced4da;
+    background-color: #fff;
+    color: #6c757d;
+}
+
+/* Sort indicator styles */
+.sort-asc::after {
+    content: " ↑";
+}
+
+.sort-desc::after {
+    content: " ↓";
+}
+
+
+
+
+
+
+
+
+.dashboard-container {
+    /* Removed background color as card will provide it */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin: 20px 0; /* Space around the container */
+}
+
+.dashboard-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #343a40; /* Darker text color */
+}
+
+.dashboard-stat {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #495057; /* Slightly lighter text color */
+}
+
+    .dashboard-stat span {
+        font-weight: bold; /* Highlight the numbers */
+        color: #007bff; /* Primary color for emphasis */
+    }
+
+
+
+
+
+/* Add shake animation for errors */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+}
+@media (max-width: 768px) {
+    .table {
+        font-size: 14px; /* Smaller text for smaller screens */
+    }
+}
+
+/* Responsive handling: smaller devices */
+@media (max-width: 576px) {
+    .pagination .page-link {
+        padding: 6px 12px; /* Reduced padding for smaller devices */
+        font-size: 14px; /* Slightly smaller font size */
+    }
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px; /* Less padding on smaller screens */
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Smaller title on mobile */
+    }
+
+    .btn {
+        width: 100%; /* Full width buttons on mobile */
+        margin-bottom: 10px; /* Space between buttons */
+    }
+
+    .table th, .table td {
+        font-size: 0.9rem; /* Smaller text size in tables */
+    }

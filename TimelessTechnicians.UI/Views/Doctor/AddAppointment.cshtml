@@ -1,0 +1,76 @@
+﻿@model TimelessTechnicians.UI.Models.PatientAppointment
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Add Appointment";
+}
+
+<div class="container mt-4">
+    <h2>Add Appointment</h2>
+
+    <div class="card glass-card">
+        <div class="card-body">
+            <form asp-action="AddAppointment" method="post">
+                <div class="form-group">
+                    <label asp-for="AdmitPatientId" class="control-label">Select Patient</label>
+                    <select asp-for="AdmitPatientId" asp-items="ViewBag.AdmittedPatients" class="form-control"></select>
+                    <span asp-validation-for="AdmitPatientId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AppointmentDate" class="control-label">Appointment Date</label>
+                    <input asp-for="AppointmentDate" class="form-control" type="datetime-local" id="appointmentDate" />
+                    <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Reason" class="control-label">Reason for Appointment</label>
+                    <textarea asp-for="Reason" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Reason" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Appointment</button>
+            </form>
+
+            <div class="mt-3">
+                <a asp-action="ListAppointments" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Set the minimum date to tomorrow (future date)
+        var today = new Date();
+        var tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        var minDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById("appointmentDate").setAttribute("min", minDate);
+    </script>
+}
+
+<style>
+    /* Glassmorphism effect */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    /* Style for form fields */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+</style>

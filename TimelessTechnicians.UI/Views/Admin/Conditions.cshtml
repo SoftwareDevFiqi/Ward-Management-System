@@ -1,0 +1,199 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Condition>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Conditions";
+    var pageNumber = ViewData["PageNumber"] as int? ?? 1;
+    var totalPages = ViewData["TotalPages"] as int? ?? 1;
+}
+
+<div class="container">
+    <h1>Conditions</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a asp-action="AddCondition" class="btn btn-primary">Add New Condition</a>
+        <form asp-action="BulkDeleteConditions" method="post" id="bulkDeleteForm">
+            <input type="hidden" name="selectedConditions" id="selectedConditionsInput" />
+            <button type="submit" class="btn btn-danger">Delete Selected</button>
+        </form>
+        <form asp-action="Conditions" method="get" class="form-inline">
+            <input type="text" id="conditionAutocomplete" name="searchString"
+                   class="form-control mr-2"
+                   placeholder="Search conditions"
+                   value="@ViewData["CurrentSearch"]" />
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </form>
+    </div>
+    <a asp-action="ExportConditionsToPdf" class="btn btn-primary">Export to PDF</a>
+
+
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th><input type="checkbox" id="selectAll"></th>
+                <th>
+                    @if (ViewData["CurrentSortOrder"].ToString() == "asc")
+                    {
+                        <a asp-action="Conditions" asp-route-sortOrder="desc" asp-route-pageNumber="@(ViewData["PageNumber"])" asp-route-searchString="@(ViewData["CurrentSearch"])">
+                            @Html.DisplayNameFor(model => model.First().Name)
+                            <i class="fas fa-sort-up"></i> <!-- Icon for ascending -->
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-action="Conditions" asp-route-sortOrder="asc" asp-route-pageNumber="@(ViewData["PageNumber"])" asp-route-searchString="@(ViewData["CurrentSearch"])">
+                            @Html.DisplayNameFor(model => model.First().Name)
+                            <i class="fas fa-sort-down"></i> <!-- Icon for descending -->
+                        </a>
+                    }
+                </th>
+                <th>@Html.DisplayNameFor(model => model.First().Description)</th>
+                <th style="width: 150px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="selectedConditions" value="@item.ConditionId"></td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>
+                            <a asp-action="EditCondition" asp-route-id="@item.ConditionId" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a asp-action="DeleteCondition" asp-route-id="@item.ConditionId" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this condition?');">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No conditions found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Condition Pagination">
+        <ul class="pagination justify-content-center">
+            @if (pageNumber > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Conditions" asp-route-pageNumber="@(pageNumber - 1)"
+                       asp-route-sortOrder="@ViewData["CurrentSortOrder"]"
+                       asp-route-searchString="@ViewData["CurrentSearch"]">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+            }
+            @if (pageNumber < totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Conditions" asp-route-pageNumber="@(pageNumber + 1)"
+                       asp-route-sortOrder="@ViewData["CurrentSortOrder"]"
+                       asp-route-searchString="@ViewData["CurrentSearch"]">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Autocomplete functionality for condition names
+           $("#conditionAutocomplete").autocomplete({
+                    source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("GetConditionNames", "Admin")', // Update with your actual controller name
+                        data: { term: request.term },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 2,
+                    select: function (event, ui) {
+                    // When a suggestion is selected, set the input value and submit the form
+                    $("#conditionAutocomplete").val(ui.item.value);
+                    $("form").submit();
+                }
+            });
+
+            // Confirm deletion before submitting the bulk delete form
+                document.getElementById("bulkDeleteForm").addEventListener("submit", function (event) {
+                    const checkboxes = document.querySelectorAll('input[name="selectedConditions"]:checked');
+
+                    // If no checkboxes are selected, prevent submission
+                    if (checkboxes.length === 0 || !confirm('Are you sure you want to delete the selected conditions?')) {
+                        event.preventDefault(); // Prevent form submission
+                    } else {
+                        // Collect selected condition IDs
+                        const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+                        document.getElementById("selectedConditionsInput").value = selectedIds.join(',');
+                    }
+                });
+
+                // Select/Deselect all checkboxes
+                document.getElementById("selectAll").addEventListener("change", function () {
+                    const checkboxes = document.querySelectorAll('input[name="selectedConditions"]');
+                    checkboxes.forEach((checkbox) => {
+                        checkbox.checked = this.checked;
+                    });
+                });
+            });
+    </script>
+}
+
+
+
+<style>
+    .container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .thead-dark th {
+        background-color: #343a40; /* Dark background for header */
+        color: white; /* White text for better contrast */
+    }
+
+    .btn {
+        margin-left: 5px;
+    }
+
+    .pagination {
+        margin-top: 20px;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff; /* Primary color for active page */
+        border-color: #007bff;
+    }
+
+    .page-link:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        color: #fff;
+    }
+
+    /* Hover Effects for Table Rows */
+    tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
+        transition: background-color 0.3s ease;
+    }
+</style>

@@ -1,0 +1,85 @@
+﻿@{
+    Layout = "_Layout";
+}
+@await Html.PartialAsync("_Navbar")
+@await Html.PartialAsync("_Notification")
+
+@{
+    ViewData["Title"] = "Doctor Dashboard";
+}
+
+<h2 class="text-center my-4">Doctor Dashboard</h2>
+
+<div class="container mt-4">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-info shadow">
+                <div class="card-body">
+                    <i class="fas fa-file-prescription fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Prescriptions</h5>
+                    <h2 class="card-text">@ViewData["TotalPrescriptions"]</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <i class="fas fa-user-injured fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Patients</h5>
+                    <h2 class="card-text">@ViewData["TotalPatients"]</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-warning shadow">
+                <div class="card-body">
+                    <i class="fas fa-arrow-right fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Forwarded</h5>
+                    <h2 class="card-text">@ViewData["TotalForwarded"]</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-danger shadow">
+                <div class="card-body">
+                    <i class="fas fa-check-circle fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Delivered</h5>
+                    <h2 class="card-text">@ViewData["TotalDelivered"]</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-secondary shadow">
+                <div class="card-body">
+                    <i class="fas fa-box-open fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Received</h5>
+                    <h2 class="card-text">@ViewData["TotalReceived"]</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <i class="fas fa-calendar-check fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Appointments</h5>
+                    <h2 class="card-text">@ViewData["TotalAppointments"]</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 1rem; /* Rounded corners */
+        transition: transform 0.2s; /* Animation for hover effect */
+    }
+
+        .card:hover {
+            transform: scale(1.05); /* Scale effect on hover */
+        }
+</style>
+

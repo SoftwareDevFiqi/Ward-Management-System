@@ -1,0 +1,88 @@
+﻿@model TimelessTechnicians.UI.ViewModel.NonScheduledMedicationViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewBag.Title = "Edit Schedule 4 and Below Medication";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">@ViewBag.Title</h2>
+
+    <div class="card shadow-lg border-0 rounded">
+        <div class="card-body">
+            <form asp-action="EditNonScheduledMedication" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group">
+                    <label asp-for="MedicationId" class="font-weight-bold">Medication</label>
+                    <select asp-for="MedicationId" class="form-control" asp-items="ViewBag.MedicationList">
+                        <option value="">-- Select Medication --</option>
+                    </select>
+                    <span asp-validation-for="MedicationId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Dosage" class="font-weight-bold">Dosage</label>
+                    <input asp-for="Dosage" class="form-control" placeholder="Enter dosage" />
+                    <span asp-validation-for="Dosage" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AdministeredDate" class="font-weight-bold">Administered Date</label>
+                    <input asp-for="AdministeredDate" class="form-control" type="date" />
+                    <span asp-validation-for="AdministeredDate" class="text-danger"></span>
+                </div>
+
+                <input type="hidden" asp-for="Status" value="Active" />
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <a asp-action="ListNonScheduledMedications" class="btn btn-outline-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 600px; /* Centering the form */
+        margin: auto; /* Center the container */
+    }
+
+    .card {
+        border-radius: 15px; /* Rounded corners */
+        background-color: #f8f9fa; /* Light background color */
+    }
+
+    .form-control {
+        border-radius: 10px; /* Rounded input fields */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
+    }
+
+    .form-control:focus {
+        border-color: #28a745; /* Green border on focus */
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* Green shadow on focus */
+    }
+
+    .text-danger {
+        font-size: 0.875rem; /* Smaller font size for validation messages */
+    }
+
+    h2 {
+        margin-bottom: 20px; /* Spacing below title */
+        color: #333; /* Darker title color */
+    }
+
+    .btn-success {
+        width: 48%; /* Button width adjustment for consistent spacing */
+    }
+
+    .btn-outline-secondary {
+        width: 48%; /* Button width adjustment for consistent spacing */
+    }
+
+    /* Responsive adjustments */
+ 
+</style>

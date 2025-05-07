@@ -1,0 +1,41 @@
+﻿@model TimelessTechnicians.UI.ViewModel.DoctorAdviceRequestViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Request Advice";
+}
+
+<h2>Request Advice</h2>
+
+<form asp-action="RequestAdvice" method="post">
+    <div class="form-group">
+        <label asp-for="DoctorId" class="control-label"></label>
+        <select asp-for="DoctorId" asp-items="Model.DoctorList" class="form-control"></select>
+        <span asp-validation-for="DoctorId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PatientId" class="control-label"></label>
+        <select asp-for="PatientId" asp-items="Model.PatientList" class="form-control"></select>
+        <span asp-validation-for="PatientId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RequestDetails" class="control-label"></label>
+        <textarea asp-for="RequestDetails" class="form-control"></textarea>
+        <span asp-validation-for="RequestDetails" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RequestDate" class="control-label"></label>
+        <input asp-for="RequestDate" class="form-control" type="date" />
+        <span asp-validation-for="RequestDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+    <div class="form-group">
+        <a href="@Url.Action("ListAdviceRequests", "Nurse")" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>

@@ -1,0 +1,44 @@
+﻿@model TimelessTechnicians.UI.Models.HospitalInfo
+@await Html.PartialAsync("_Notification")
+
+@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+<h1 class="text-center my-4">Welcome to Your Dashboard</h1>
+<p class="text-center">Here you can access your medical records, appointments, and more.</p>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Hospital Information</h2>
+
+                    @if (Model != null)
+                    {
+                        <div class="hospital-info">
+                            <h3 class="text-center">@Model.HospitalName</h3>
+                            <hr>
+                            <p><strong>Address:</strong> @Model.Address</p>
+                            <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+                            <p>
+                                <strong>Email:</strong>
+                                <a href="mailto:@Model.Email" class="text-decoration-none">@Model.Email</a>
+                            </p>
+                            <p>
+                                <strong>Website:</strong>
+                                <a href="@Model.WebsiteUrl" target="_blank" class="text-decoration-none">@Model.WebsiteUrl</a>
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted">No hospital information is available at this time.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

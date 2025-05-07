@@ -1,0 +1,95 @@
+﻿@await Html.PartialAsync("_Navbar")
+@{
+    Layout = "_Layout";
+}
+@await Html.PartialAsync("_Notification")
+
+<h2>Ward Admin Dashboard</h2>
+
+<div class="row">
+    <!-- Total Patients -->
+    <div class="col-lg-4 col-md-6">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Total Patients</h4>
+                <p class="card-text">@Model.TotalPatients</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmed Patients -->
+    <div class="col-lg-4 col-md-6">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Confirmed Patients</h4>
+                <p class="card-text">@Model.ConfirmedPatients</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Confirmations -->
+    <div class="col-lg-4 col-md-6">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Pending Confirmations</h4>
+                <p class="card-text">@Model.PendingConfirmations</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patients with Folder -->
+    <div class="col-lg-4 col-md-6">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Patients with Folders</h4>
+                <p class="card-text">@Model.PatientsWithFolder</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Total Discharges</h4>
+                <p class="card-text">@Model.TotalDischarges</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Total Beds -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">Total Beds</h4>
+                    <p class="card-text">@Model.TotalBeds</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Occupied Beds -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">Occupied Beds</h4>
+                    <p class="card-text">@Model.OccupiedBeds</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available Beds -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">Available Beds</h4>
+                    <p class="card-text">@Model.AvailableBeds</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+   
+</div>
+
+

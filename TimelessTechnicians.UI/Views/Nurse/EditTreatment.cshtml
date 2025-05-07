@@ -1,0 +1,88 @@
+﻿@model TimelessTechnicians.UI.ViewModel.PatientTreatmentViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Edit Treatment";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+    <div class="card glassmorphic">
+        <div class="card-body">
+            <form asp-action="EditTreatment" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text" class="form-control" value="@Model.PatientList.FirstOrDefault(x => x.Value == Model.PatientId)?.Text" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TreatmentDescription" class="control-label"></label>
+                    <textarea asp-for="TreatmentDescription" class="form-control" rows="4" placeholder="Enter treatment description..."></textarea>
+                    <span asp-validation-for="TreatmentDescription" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DatePerformed" class="control-label"></label>
+                    <input asp-for="DatePerformed" class="form-control" type="date" />
+                    <span asp-validation-for="DatePerformed" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PerformedBy" class="control-label"></label>
+                    <input asp-for="PerformedBy" class="form-control" readonly />
+                    <span asp-validation-for="PerformedBy" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TreatmentStatus" class="control-label"></label>
+                    <select asp-for="TreatmentStatus" class="form-control">
+                        @foreach (var status in Enum.GetValues(typeof(TreatmentStatus)).Cast<TreatmentStatus>())
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </select>
+                    <span asp-validation-for="TreatmentStatus" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <input type="submit" value="Save Changes" class="btn btn-primary" />
+                    <a asp-action="ListTreatments" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-control {
+        border-radius: 10px;
+    }
+
+    .text-danger {
+        font-size: 0.875rem;
+    }
+
+    .container {
+        max-width: 600px; /* Limit the container width */
+    }
+</style>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.ViewModel.UserListViewModel>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "List of Users";
+    var pageNumber = ViewData["PageNumber"] as int? ?? 1;
+    var totalPages = ViewData["TotalPages"] as int? ?? 1;
+    var currentSort = ViewData["CurrentSort"] as string;
+}
+
+<h1>List of Users</h1>
+
+
+<div class="content">
+    <table class="table">
+        <caption>List of Users with their email and status</caption> <!-- Caption for accessibility -->
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="ListOfUsers" asp-route-sortOrder="@(currentSort == "name_desc" ? "name" : "name_desc")" asp-route-pageNumber="@pageNumber">Name</a>
+                </th>
+                <th>
+                    <a asp-action="ListOfUsers" asp-route-sortOrder="@(currentSort == "email_desc" ? "email" : "email_desc")" asp-route-pageNumber="@pageNumber">Email</a>
+                </th>
+                <th>
+                    <a asp-action="ListOfUsers" asp-route-sortOrder="@(currentSort == "role_desc" ? "role" : "role_desc")" asp-route-pageNumber="@pageNumber">Role</a>
+                </th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FirstName @user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td>
+                    <td>@user.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="User Pagination">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == pageNumber ? "active" : "")">
+                    <a class="page-link" asp-action="ListOfUsers" asp-route-pageNumber="@i" asp-route-sortOrder="@currentSort">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

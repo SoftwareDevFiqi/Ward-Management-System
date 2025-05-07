@@ -1,0 +1,53 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Bed>
+
+<h2>Deleted Beds</h2>
+
+<form asp-action="BulkRestore" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="select-all" />
+                </th>
+                <th>
+                    @Html.ActionLink("Bed Number", "DeletedBeds", new { sortOrder = ViewData["CurrentSort"] == "bednumber" ? "bednumber_desc" : "bednumber", searchString = ViewData["CurrentSearch"] })
+                </th>
+                <th>Status</th>
+                <th>Ward</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bed in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedBeds" value="@bed.BedId" />
+                    </td>
+                    <td>@bed.BedNumber</td>
+                    <td>@bed.Status</td>
+                    <td>@bed.Ward?.WardName</td>
+                    <td>
+                        <form asp-action="RestoreBed" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@bed.BedId" />
+                            <button type="submit" class="btn btn-warning">Restore</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-success">Restore Selected Beds</button>
+</form>
+
+@section Scripts {
+    <script>
+        // Select/Deselect all checkboxes
+        document.getElementById("select-all").onclick = function () {
+            var checkboxes = document.querySelectorAll('input[name="selectedBeds"]');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        };
+    </script>
+}

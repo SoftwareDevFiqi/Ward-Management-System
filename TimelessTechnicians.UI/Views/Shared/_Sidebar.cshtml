@@ -1,0 +1,305 @@
+﻿@{
+    var userRole = User.IsInRole("ADMINISTRATOR") ? "ADMINISTRATOR" :
+                   User.IsInRole("WARDADMIN") ? "WARDADMIN" :
+                   User.IsInRole("PATIENT") ? "PATIENT" :
+                   User.IsInRole("NURSE") ? "NURSE" :
+                   User.IsInRole("NURSINGSISTER") ? "NURSINGSISTER" :
+                   User.IsInRole("DOCTOR") ? "DOCTOR" :
+                   User.IsInRole("SCRIPTMANAGER") ? "SCRIPTMANAGER" :
+                   User.IsInRole("CONSUMABLESMANAGER") ? "CONSUMABLESMANAGER" :
+                   "UNKNOWN";
+
+    var currentPage = ViewData["CurrentPage"]?.ToString();
+}
+
+<div class="menu">
+    <h3>Menu</h3>
+    @if (userRole == "ADMINISTRATOR")
+    {
+        <a asp-controller="Admin" asp-action="AdminDashboard" class="bounce-icon">
+            <i class="fas fa-home"></i> Admin Dashboard
+        </a>
+        <a asp-controller="Admin" asp-action="AddAllergy" class="bounce-icon">
+            <i class="fas fa-exclamation-triangle"></i> Allergy
+        </a>
+        <a asp-controller="Admin" asp-action="AddBed" class="bounce-icon">
+            <i class="fas fa-bed"></i> Bed
+        </a>
+        <a asp-controller="Admin" asp-action="AddCondition" class="bounce-icon">
+            <i class="fas fa-diagnoses"></i> Condition
+        </a>
+        <a asp-controller="Admin" asp-action="AddConsumable" class="bounce-icon">
+            <i class="fas fa-boxes"></i> Consumable
+        </a>
+        <a asp-controller="Admin" asp-action="AddHospital" class="bounce-icon">
+            <i class="fas fa-hospital"></i> Hospital Info
+        </a>
+        <a asp-controller="Admin" asp-action="AddMedication" class="bounce-icon">
+            <i class="fas fa-pills"></i> Medication
+        </a>
+        <a asp-controller="Admin" asp-action="AddWard" class="bounce-icon">
+            <i class="fas fa-procedures"></i> Ward
+        </a>
+        <a asp-controller="Account" asp-action="ViewLogs" class="bounce-icon">
+            <i class="fas fa-clipboard-list"></i> Logs
+        </a>
+        <a asp-controller="Account" asp-action="UserManagement" class="bounce-icon">
+            <i class="fas fa-users-cog"></i> User Manager
+        </a>
+
+        <a asp-controller="Account" asp-action="UpdateProfile" class="bounce-icon">
+            <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+        <a asp-controller="Account" asp-action="DeactivateProfile" class="bounce-icon">
+            <i class="fas fa-user-slash"></i> Deactivate Profile
+        </a>
+    }
+    else if (userRole == "WARDADMIN")
+    {
+        <a asp-controller="WardAdmin" asp-action="WardAdminDashboard" class="bounce-icon">
+            <i class="fas fa-home"></i> WardAdmin Dashboard
+        </a>
+
+        <a asp-controller="WardAdmin" asp-action="ConfirmPatients" class="bounce-icon">
+            <i class="fas fa-check-circle"></i> Confirm Patients
+        </a>
+       
+        <a asp-controller="WardAdmin" asp-action="AdmitPatient" class="bounce-icon">
+            <i class="fas fa-user-plus"></i> Admit Patients
+        </a>
+        <a asp-controller="WardAdmin" asp-action="AssignBed" class="bounce-icon">
+            <i class="fas fa-bed"></i> Assign Bed
+        </a>
+        <a asp-controller="WardAdmin" asp-action="ListPatientDischarges" class="bounce-icon">
+            <i class="fas fa-procedures"></i>  List Of Discharge Patient
+        </a>
+        <a asp-controller="WardAdmin" asp-action="Discharge" class="bounce-icon">
+            <i class="fas fa-door-open"></i> Discharge
+        </a>
+        <a asp-controller="WardAdmin" asp-action="RecordMovement" class="bounce-icon">
+            <i class="fas fa-file-medical"></i> Record Movement
+        </a>
+        <a asp-controller="Account" asp-action="UpdateProfile" class="bounce-icon">
+            <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+        <a asp-controller="Account" asp-action="DeactivateProfile" class="bounce-icon">
+            <i class="fas fa-user-slash"></i> Deactivate Profile
+        </a>
+    }
+    else if (userRole == "NURSE")
+    {
+        <a asp-controller="Nurse" asp-action="NurseDashboard" class="spin-icon">
+            <i class="fas fa-home"></i> Nurse Dashboard
+        </a>
+        <a asp-controller="Nurse" asp-action="RecordVitals" class="bounce-icon">
+            <i class="fas fa-heartbeat"></i> Record Vitals
+        </a>
+        <a asp-controller="Nurse" asp-action="RecordTreatment" class="bounce-icon">
+            <i class="fas fa-stethoscope"></i> Record Treatment
+        </a>
+        <a asp-controller="Nurse" asp-action="RecordNonScheduledMedication" class="bounce-icon">
+            <i class="fas fa-pills"></i> Record Medication
+        </a>
+        <a asp-controller="Nurse" asp-action="RequestAdvice" class="bounce-icon">
+            <i class="fas fa-envelope"></i>Request Advice
+        </a>
+        <a asp-controller="Doctor" asp-action="ListPatientInstructions" class="bounce-icon">
+            <i class="fas fa-clipboard-list"></i> View doctor instructions
+        </a>
+        <a asp-controller="Nurse" asp-action="SelectPatient" class="bounce-icon">
+            <i class="fas fa-notes-medical"></i> Patient history
+        </a>
+        <a asp-controller="Account" asp-action="UpdateProfile" class="bounce-icon">
+            <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+        <a asp-controller="Account" asp-action="DeactivateProfile" class="bounce-icon">
+            <i class="fas fa-user-slash"></i> Deactivate Profile
+        </a>
+    }
+    else if (userRole == "NURSINGSISTER")
+    {
+        <a asp-controller="NursingSister" asp-action="NursingSisterDashboard" class="spin-icon">
+            <i class="fas fa-home"></i> Nursing Sister Dashboard
+        </a>
+        <a asp-controller="Nurse" asp-action="RecordVitals" class="bounce-icon">
+            <i class="fas fa-heartbeat"></i> Record Vitals
+        </a>
+        <a asp-controller="Nurse" asp-action="RecordTreatment" class="bounce-icon">
+            <i class="fas fa-stethoscope"></i> Record Treatment
+        </a>
+        <a asp-controller="Nurse" asp-action="RequestAdvice" class="bounce-icon">
+            <i class="fas fa-envelope"></i> Send Advice Request
+        </a>
+        <a asp-controller="Doctor" asp-action="ListPatientInstructions" class="bounce-icon">
+            <i class="fas fa-clipboard-list"></i> View doctor instructions
+        </a>
+        <a asp-controller="NursingSister" asp-action="AdministerScheduledMedication" class="bounce-icon">
+            <i class="fas fa-file-medical"></i> Medical Records
+        </a>
+        <a asp-controller="Account" asp-action="UpdateProfile" class="bounce-icon">
+            <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+        <a asp-controller="Account" asp-action="DeactivateProfile" class="bounce-icon">
+            <i class="fas fa-user-slash"></i> Deactivate Profile
+        </a>
+    }
+
+    else if (userRole == "CONSUMABLESMANAGER")
+    {
+        <a asp-controller="ConsumablesManager" asp-action="ConsumablesManagerDashboard" class="spin-icon">
+            <i class="fas fa-home"></i> Consumables Manager Dashboard
+        </a>
+        <a asp-controller="Admin" asp-action="AddConsumable" class="bounce-icon">
+            <i class="fas fa-boxes"></i> Consumable
+        </a>
+        <a asp-controller="ConsumablesManager" asp-action="Consumables" class="bounce-icon">
+            <i class="fas fa-file-medical"></i> List Of Consumables
+        </a>
+        <a asp-controller="ConsumablesManager" asp-action="CreateStockRequest" class="bounce-icon">
+            <i class="fas fa-file-medical"></i> Stock Request
+        </a>
+
+        <a asp-controller="ConsumablesManager" asp-action="ListStockLogs" class="bounce-icon">
+            <i class="fas fa-file-medical"></i> List Stock Logs
+        </a>
+        <a asp-controller="ConsumablesManager" asp-action="CheckConsumables" class="bounce-icon">
+            <i class="fas fa-file-medical"></i> Check Consumables
+        </a>
+        <a asp-controller="Account" asp-action="UpdateProfile" class="bounce-icon">
+            <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+        <a asp-controller="Account" asp-action="DeactivateProfile" class="bounce-icon">
+            <i class="fas fa-user-slash"></i> Deactivate Profile
+        </a>
+    }
+    else if (userRole == "SCRIPTMANAGER")
+    {
+        <a asp-controller="ScriptManager" asp-action="ScriptManagerDashboard" class="spin-icon">
+            <i class="fas fa-home"></i> Script Manager Dashboard
+        </a>
+        <a asp-controller="ScriptManager" asp-action="ListPrescriptions" class="bounce-icon">
+            <i class="fas fa-file-medical"></i> List Of Scripts
+        </a>
+        <a asp-controller="Account" asp-action="UpdateProfile" class="bounce-icon">
+            <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+        <a asp-controller="Account" asp-action="DeactivateProfile" class="bounce-icon">
+            <i class="fas fa-user-slash"></i> Deactivate Profile
+        </a>
+    }
+
+
+    else if (userRole == "PATIENT")
+    {
+        <a asp-controller="Patient" asp-action="PatientDashboard" class="spin-icon">
+            <i class="fas fa-home"></i> Patient Dashboard
+        </a>
+        <a asp-controller="Doctor" asp-action="ListAppointments" class="spin-icon">
+            <i class="fas fa-calendar-check"></i> View Scheduled Appointments
+        </a>
+
+        <a asp-controller="Account" asp-action="UpdateProfile" class="bounce-icon">
+            <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+        <a asp-controller="Account" asp-action="DeactivateProfile" class="bounce-icon">
+            <i class="fas fa-user-slash"></i> Deactivate Profile
+        </a>
+    }
+    else if (userRole == "DOCTOR")
+    {
+     
+        <a asp-controller="Doctor" asp-action="DoctorDashboard" class="bounce-icon">
+            <i class="fas fa-user-md"></i> Doctor Dashboard
+        </a>
+        <a asp-controller="WardAdmin" asp-action="AdmittedPatients" class="bounce-icon">
+            <i class="fas fa-notes-medical"></i> Patient History
+        </a>
+        <a asp-controller="Doctor" asp-action="AddPatientInstruction" class="bounce-icon">
+            <i class="fas fa-file-medical"></i> Add Patient Instruction
+        </a>
+        <a asp-controller="Doctor" asp-action="AddVisitSchedule" class="bounce-icon">
+            <i class="fas fa-calendar-plus"></i> Add Visit Schedule
+        </a>
+        <a asp-controller="Doctor" asp-action="AddAppointment" class="bounce-icon">
+            <i class="fas fa-calendar-check"></i> Add Appointment
+        </a>
+        <a asp-controller="Doctor" asp-action="AddPatientDischarge" class="bounce-icon">
+            <i class="fas fa-procedures"></i> 
+            Add Patient Discharge
+        </a>
+        <a asp-controller="Doctor" asp-action="AddPrescription" class="bounce-icon">
+            <i class="fas fa-prescription"></i>
+            Add Patient Prescription
+        </a>
+          <a asp-controller="Doctor" asp-action="AddMedicationPrescription" class="bounce-icon">
+            <i class="fas fa-prescription-bottle-alt"></i>
+            Add Medication Prescription
+        </a>
+       
+        <a asp-controller="Account" asp-action="UpdateProfile" class="bounce-icon">
+            <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+        <a asp-controller="Account" asp-action="DeactivateProfile" class="bounce-icon">
+            <i class="fas fa-user-times"></i> Deactivate Profile
+        </a>
+    }
+</div>
+
+<style>
+    .menu {
+        width: 250px;
+        background-color: #f4f4f4;
+        padding: 15px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    .menu h3 {
+        margin-bottom: 20px;
+    }
+
+    .menu a {
+        display: flex;
+        align-items: center;
+        color: #333;
+        text-decoration: none;
+        padding: 10px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+    .menu a i {
+        margin-right: 10px; /* Space between icon and text */
+        font-size: 1.2em; /* Adjust icon size */
+    }
+
+    .menu a:hover {
+        background-color: orange;
+        color: white;
+    }
+
+    .menu a.active {
+        background-color: orange; /* Highlight color for active link */
+        color: white;
+    }
+
+    /* Apply spin animation to icons */
+    .menu a.spin-icon i {
+        transition: color 0.3s;
+    }
+
+    .menu a.spin-icon:hover i {
+        animation: spin 1s linear infinite;
+        color: #ffeb3b; /* Color change on hover */
+    }
+
+    /* Apply bounce animation to icons */
+    .menu a.bounce-icon i {
+        transition: color 0.3s;
+    }
+
+    .menu a.bounce-icon:hover i {
+        animation: bounce 1s ease infinite;
+        color: #ffeb3b; /* Color change on hover */
+    }
+</style>

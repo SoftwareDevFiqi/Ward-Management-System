@@ -1,0 +1,218 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Ward>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewData["Title"] = "Wards";
+    var pageNumber = ViewData["PageNumber"] as int? ?? 1;
+    var totalPages = ViewData["TotalPages"] as int? ?? 1;
+    var currentSort = ViewData["CurrentSort"] as string;
+    var currentSearch = ViewData["CurrentSearch"] as string; // Get the current search string
+    var nameSort = ViewData["NameSortParm"] as string; // Get name sort parameter
+    var capacitySort = ViewData["CapacitySortParm"] as string; // Get capacity sort parameter
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Ward List</h2>
+        <a class="btn btn-primary" asp-action="AddWard">
+            <i class="fas fa-plus"></i> Add New Ward
+        </a>
+
+        <a asp-action="DeletedWards" class="btn btn-info">
+            <i class="fas fa-archive"></i> View Deleted Wards
+        </a>
+        <a class="btn btn-success" asp-action="ExportWardsToPdf">
+            <i class="fas fa-file-pdf"></i> Export Wards
+        </a>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" asp-action="Wards">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="wardAutocomplete" name="searchString" placeholder="Search by Ward Names" aria-label="Search by Ward Names" />
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </form>
+
+
+
+
+    <!-- Bulk Delete Form -->
+    <form asp-action="BulkDeleteWards" method="post">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="select-all" />
+                    </th>
+                    <th>
+                        <a asp-action="Wards" asp-route-sortOrder="@nameSort" asp-route-searchString="@currentSearch">Name</a>
+                    </th>
+                    <th>
+                        <a asp-action="Wards" asp-route-sortOrder="@capacitySort" asp-route-searchString="@currentSearch">Capacity</a>
+                    </th>
+                    <th>Remaining Capacity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedWards" value="@item.WardId" />
+                            </td>
+                            <td>
+                                @item.WardName
+                                @if (item.WardId == (ViewData["NewWardId"] as int?))
+                                {
+                                    <i class="fas fa-check-circle" style="color: green;"></i> <!-- Display tick icon -->
+                                }
+                            </td>
+                            <td>@item.Capacity</td>
+                            <td>@item.RemainingCapacity</td>
+                            <td>
+                                <a asp-action="EditWard" asp-route-id="@item.WardId" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a asp-action="DeleteWard" asp-route-id="@item.WardId" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this ward?');">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="5">No wards found.</td></tr>
+                }
+            </tbody>
+
+        </table>
+
+        <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Bulk Delete Selected Wards
+        </button>
+    </form>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Ward Pagination">
+        <ul class="pagination justify-content-center">
+            @if (pageNumber > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Wards" asp-route-pageNumber="@(pageNumber - 1)" asp-route-sortOrder="@currentSort" asp-route-searchString="@currentSearch">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </a>
+                </li>
+            }
+            @if (pageNumber < totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Wards" asp-route-pageNumber="@(pageNumber + 1)" asp-route-sortOrder="@currentSort" asp-route-searchString="@currentSearch">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+    
+      
+
+
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Autocomplete functionality for ward names
+            $("#wardAutocomplete").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("GetWardNames", "Admin")', // Ensure this URL is correct
+                        data: { term: request.term },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    // This allows the form to be submitted with the selected name
+                    $("#wardAutocomplete").val(ui.item.value);
+                    $("form").submit(); // Submit the form when a suggestion is selected
+                }
+            });
+
+            // Checkbox management logic
+            const checkboxes = document.querySelectorAll('input[name="selectedWards"]');
+            const selectAllCheckbox = document.getElementById('select-all');
+
+            // Initialize checkbox states based on localStorage
+            checkboxes.forEach(function (checkbox) {
+                const wardId = checkbox.value;
+                checkbox.checked = localStorage.getItem(wardId) === 'true';
+
+                // Attach change event to save the state
+                checkbox.addEventListener('change', function () {
+                    localStorage.setItem(wardId, checkbox.checked);
+                    updateSelectAllCheckboxState();
+                });
+            });
+
+            // Handle Select/Deselect all checkboxes
+            selectAllCheckbox.addEventListener('change', function () {
+                const isChecked = selectAllCheckbox.checked;
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = isChecked;
+                    localStorage.setItem(checkbox.value, isChecked); // Save the state to localStorage
+                });
+            });
+
+            // Function to update the state of the Select All checkbox
+            function updateSelectAllCheckboxState() {
+                const allChecked = Array.from(checkboxes).every(function (checkbox) {
+                    return localStorage.getItem(checkbox.value) === 'true';
+                });
+                selectAllCheckbox.checked = allChecked;
+            }
+
+            // Initialize Select All checkbox state on page load
+            updateSelectAllCheckboxState();
+
+            // Listen for changes in localStorage to update checkboxes
+            window.addEventListener('storage', function (event) {
+                if (event.key && checkboxes.some(checkbox => checkbox.value === event.key)) {
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = localStorage.getItem(checkbox.value) === 'true';
+                    });
+                    updateSelectAllCheckboxState();
+                }
+            });
+        });
+    </script>
+}
+
+
+
+<style>
+    .btn i {
+        transition: transform 0.3s ease, color 0.3s ease; /* Transition for scaling and color */
+    }
+
+    .btn:hover i {
+        transform: scale(1.2); /* Scale up the icon on hover */
+        color: #007bff; /* Change color on hover */
+    }
+
+    .pagination .page-link {
+        transition: background-color 0.3s ease; /* Transition for hover effect */
+    }
+
+    .pagination .page-link:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
+        color: #007bff; /* Change text color on hover */
+    }
+</style>

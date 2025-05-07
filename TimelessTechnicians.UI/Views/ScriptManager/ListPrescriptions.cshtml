@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Prescription>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+<h2>List of Scripts</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Medication</th>
+            <th>Dosage</th>
+            <th>Date Written</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prescription in Model)
+        {
+                <tr>
+                    <td>@prescription.Patient.FirstName @prescription.Patient.LastName</td>
+                    <td>@prescription.Doctor.FirstName @prescription.Doctor.LastName</td>
+                    <td>@prescription.Medication</td>
+                    <td>@prescription.Dosage</td>
+                    <td>@prescription.DateWritten.ToString("yyyy-MM-dd")</td>
+                    <td>@prescription.Status</td>
+                <td>
+                    <a asp-action="ForwardToPharmacy" asp-route-id="@prescription.Id" class="btn btn-primary">
+                        <i class="bi bi-cart-check"></i> Forward to Pharmacy
+                    </a>
+                    <a asp-action="MarkAsDelivered" asp-route-id="@prescription.Id" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Mark as Delivered
+                    </a>
+                    <a asp-action="ReceiveMedication" asp-route-id="@prescription.Id" class="btn btn-info">
+                        <i class="bi bi-box-arrow-in-right"></i> Receive Medication
+                    </a>
+                </td>
+
+                </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,204 @@
+﻿@model TimelessTechnicians.UI.Models.Medication
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Add Medication";
+}
+
+<style>
+    /* Custom styles for the content area */
+    body {
+        background-color: #f8f9fa; /* Light background for contrast */
+        font-family: 'Arial', sans-serif; /* Modern font */
+    }
+
+    .content {
+        margin: 20px;
+        position: relative; /* Allows positioning of buttons at the bottom */
+    }
+
+    /* Glassmorphism effect for the card */
+    .card {
+        background: rgba(255, 255, 255, 0.9); /* Slightly less transparent */
+        backdrop-filter: blur(15px); /* Increased blur effect for depth */
+        border: 1px solid rgba(255, 255, 255, 0.25); /* More prominent light border */
+        border-radius: 0.5rem;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow for a more pronounced effect */
+        transition: transform 0.3s ease; /* Smooth transition for hover */
+        padding-bottom: 50px; /* Adds space for the buttons */
+    }
+
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+
+    .card-header {
+        background: rgba(0, 123, 255, 0.85); /* More opaque blue background */
+        color: white;
+        padding: 15px; /* Add padding for better spacing */
+        border-top-left-radius: 0.5rem; /* Rounded corners on top */
+        border-top-right-radius: 0.5rem;
+    }
+
+    h4 {
+        margin: 0; /* Remove margin for header */
+        font-size: 1.25rem; /* Adjust font size */
+    }
+
+    .form-control {
+        border: 1px solid #ced4da; /* Standard border */
+        border-radius: 0.25rem; /* Standard rounded corners */
+        transition: border-color 0.2s; /* Transition for focus */
+    }
+
+        .form-control:focus {
+            border-color: #007bff; /* Blue border on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Glow effect on focus */
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 10px 20px; /* Increased padding for better clickability */
+        transition: background-color 0.3s, border-color 0.3s; /* Transition for hover effects */
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d; /* Gray background for secondary button */
+        border-color: #6c757d;
+        padding: 10px 20px; /* Consistent padding */
+        transition: background-color 0.3s; /* Transition for hover effects */
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Darker gray on hover */
+        }
+
+    .text-danger {
+        font-size: 0.9rem; /* Smaller font size for error messages */
+    }
+
+    /* Spacing between form groups */
+    .form-group {
+        margin-bottom: 1.5rem; /* Increased spacing between form groups */
+    }
+
+    /* Style for positioning the buttons at the bottom */
+    .button-container {
+        position: absolute;
+        bottom: 20px;
+    }
+
+    .back-to-list-container {
+        right: 20px;
+    }
+
+    .add-button-container {
+        left: 20px;
+    }
+
+    .back-to-list-btn,
+    .add-btn {
+        padding: 10px 20px;
+    }
+
+</style>
+
+<div class="content">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4 class="mb-0"><i class="fas fa-pills"></i> Medication Info</h4>
+        </div>
+        <div class="card-body">
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <form asp-action="AddMedication">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Name Field -->
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="Enter medication name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <!-- Type Field -->
+                        <div class="form-group">
+                            <label asp-for="Type" class="control-label">Type</label>
+                            <select asp-for="Type" class="form-control">
+                                @foreach (var type in Enum.GetValues(typeof(MedicationType)))
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+
+                        <!-- Medication Schedule Dropdown -->
+                        <div class="form-group">
+                            <label asp-for="Schedule" class="control-label">Medication Schedule</label>
+                            <select asp-for="Schedule" class="form-control">
+                                @foreach (var schedule in Enum.GetValues(typeof(MedicationSchedule)))
+                                {
+                                    <option value="@schedule">@schedule</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Schedule" class="text-danger"></span>
+                        </div>
+
+                        <!-- Quantity Field -->
+                        <div class="form-group">
+                            <label asp-for="Quantity" class="control-label">Quantity</label>
+                            <input asp-for="Quantity" class="form-control" placeholder="Enter quantity" />
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+
+                        <!-- Expiry Date Field -->
+                        <div class="form-group">
+                            <label asp-for="ExpiryDate" class="control-label">Expiry Date</label>
+                            <input asp-for="ExpiryDate" class="form-control" placeholder="YYYY-MM-DD" />
+                            <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                        </div>
+
+                        <!-- Description Field -->
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label">Description</label>
+                            <input asp-for="Description" class="form-control" placeholder="Enter medication description" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <!-- Deletion Status Field -->
+                        <div class="form-group">
+                            <label asp-for="DeletionStatus" class="control-label">Status</label>
+                            <select asp-for="DeletionStatus" class="form-control">
+                                @foreach (var status in Enum.GetValues(typeof(MedicationStatus)))
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            </select>
+                            <span asp-validation-for="DeletionStatus" class="text-danger"></span>
+                        </div>
+
+                        <!-- Positioning buttons at the bottom corners -->
+                        <div class="button-container add-button-container">
+                            <button type="submit" class="btn btn-primary add-btn">
+                                <i class="fas fa-plus"></i> Create
+                            </button>
+                        </div>
+
+                        <div class="button-container back-to-list-container">
+                            <a asp-action="Medications" class="btn btn-secondary back-to-list-btn">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

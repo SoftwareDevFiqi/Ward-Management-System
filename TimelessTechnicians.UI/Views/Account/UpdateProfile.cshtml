@@ -1,0 +1,102 @@
+﻿@using static TimelessTechnicians.UI.Models.ApplicationUser
+@model TimelessTechnicians.UI.ViewModel.UserProfileViewModel
+
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewData["Title"] = "Update Profile";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="card glassmorphic mt-4">
+        <div class="card-header">
+            <h4 class="mb-0"><i class="fas fa-user-edit"></i> Update Your Profile</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="UpdateProfile" method="post">
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <select asp-for="Title" asp-items="Html.GetEnumSelectList<Titles>()" class="form-control"></select>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" readonly />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="control-label">Date of Birth</label>
+                    <input asp-for="DateOfBirth" class="form-control" type="date" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <select asp-for="City" asp-items="Html.GetEnumSelectList<Cities>()" class="form-control"></select>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Suburb" class="control-label"></label>
+                    <select asp-for="Suburb" asp-items="Html.GetEnumSelectList<Suburbs>()" class="form-control"></select>
+                    <span asp-validation-for="Suburb" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="button-container">
+                    <input type="submit" value="Update Profile" class="btn btn-primary" />
+                    <a href="@ViewBag.CancelRedirectUrl" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    .card {
+        border-radius: 10px;
+        padding: 20px; /* Inner spacing */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        margin-top: 20px; /* Space from the title */
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(15px);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem; /* Space between form groups */
+    }
+
+    .text-danger {
+        margin-top: 0.25rem; /* Space above validation messages */
+    }
+
+    .btn {
+        margin-right: 5px; /* Space between buttons */
+    }
+
+    .button-container {
+        margin-top: 20px; /* Space above buttons */
+    }
+</style>

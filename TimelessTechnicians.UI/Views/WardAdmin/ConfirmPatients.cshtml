@@ -1,0 +1,85 @@
+﻿@model IEnumerable<ApplicationUser>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Confirm Patients";
+}
+
+<div class="container">
+    <h2>Confirm Patients</h2>
+    <div class="glassmorphic">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var patient in Model)
+                    {
+                        <tr>
+                            <td>@patient.FirstName @patient.LastName</td>
+                            <td>@patient.Email</td>
+                            <td>
+                                <form asp-action="ConfirmPatient" method="post">
+                                    <input type="hidden" name="id" value="@patient.Id" />
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-check"></i> Confirm
+                                    </button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No inactive patients found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a asp-controller="WardAdmin" asp-action="ListPatients" class="btn btn-primary">
+            <i class="fas fa-users"></i> List Of Patients
+        </a>
+
+    </div>
+</div>
+
+<style>
+    body {
+        background: #f0f0f0; /* Light background for contrast */
+    }
+
+    .container {
+        margin-top: 20px;
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        padding: 20px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-success {
+        display: inline-flex; /* Flexbox for aligning icon and text */
+        align-items: center; /* Center items vertically */
+    }
+
+        .btn-success i {
+            margin-right: 5px; /* Space between icon and text */
+        }
+</style>

@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="access-denied">
+   
+    <h2>@ViewData["Title"]</h2>
+    <p>@ViewBag.ErrorMessage</p>
+    <p>@ViewBag.RoleSpecificMessage</p>
+
+   
+
+    <h3>Why Are Certain Resources Protected?</h3>
+    <p>
+        Some sections of the application are restricted to certain roles to ensure that sensitive information and critical functionalities are only accessible by authorized users. This is to maintain the security and integrity of the system.
+    </p>
+
+    <h3>How Permissions Work</h3>
+    <p>
+        Permissions are assigned based on your role within the system. Each role has specific access rights to various parts of the application. If you believe you should have access to this section, please contact support for further assistance.
+    </p>
+
+    <h3>Need Help?</h3>
+    <p>
+        If you have questions about your access level or believe you should have access to this section, please <a href="@Url.Action("ContactSupport", "Home")">contact our support team</a> for assistance.
+    </p>
+
+    <!-- Navigation Options -->
+    <div class="navigation-options">
+        <a class="btn btn-primary" href="@ViewBag.ReturnUrl">Return to Dashboard</a>
+        <a class="btn btn-secondary" href="@Url.Action("Index", "Home")">Return to Home</a>
+        <a class="btn btn-info" href="@Url.Action("Login", "Account")">Login</a>
+        <a class="btn btn-light" href="@Url.Action("Profile", "Account")">Your Profile</a>
+    </div>
+</div>
+
+<!-- Optional: Add some styling for the access denied page -->
+<style>
+    .access-denied {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .error-icon img {
+        width: 100px; /* Adjust size as needed */
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .access-denied h2 {
+        color: #d9534f; /* Bootstrap 'danger' color */
+    }
+
+    .access-denied p {
+        margin: 20px 0;
+    }
+
+    .access-denied .btn {
+        margin-top: 20px;
+        margin-right: 10px;
+    }
+
+    .navigation-options {
+        margin-top: 30px;
+    }
+
+    .breadcrumb {
+        list-style-type: none;
+        padding: 0;
+        text-align: left;
+        margin: 20px auto;
+        display: inline-block;
+    }
+
+        .breadcrumb li {
+            display: inline;
+            margin-right: 5px;
+        }
+
+            .breadcrumb li::after {
+                content: ' > ';
+                margin-left: 5px;
+            }
+
+            .breadcrumb li:last-child::after {
+                content: '';
+            }
+</style>

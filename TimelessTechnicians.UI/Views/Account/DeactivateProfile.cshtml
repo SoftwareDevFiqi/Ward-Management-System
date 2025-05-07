@@ -1,0 +1,81 @@
+﻿@model TimelessTechnicians.UI.ViewModel.UserProfileViewModel
+
+@{
+    ViewData["Title"] = "Deactivate Profile";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Deactivate Profile</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <p class="text-warning">Are you sure you want to deactivate your profile? This action cannot be undone.</p>
+
+            <form asp-action="DeactivateProfileConfirmed" method="post">
+                <input type="hidden" name="UserName" value="@Model.UserName" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Title" class="control-label">Title</label>
+                    <input asp-for="Title" class="form-control" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="FirstName" class="control-label">First Name</label>
+                    <input asp-for="FirstName" class="form-control" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="LastName" class="control-label">Last Name</label>
+                    <input asp-for="LastName" class="form-control" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="DateOfBirth" class="control-label">Date of Birth</label>
+                    <input asp-for="DateOfBirth" class="form-control" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="City" class="control-label">City</label>
+                    <input asp-for="City" class="form-control" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Suburb" class="control-label">Suburb</label>
+                    <input asp-for="Suburb" class="form-control" readonly />
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="Address" class="control-label">Address</label>
+                    <input asp-for="Address" class="form-control" readonly />
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger btn-lg">Deactivate Profile</button>
+                    <a asp-href="@ViewBag.CancelRedirectUrl" class="btn btn-secondary btn-lg">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-warning {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-lg {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 1.1rem;
+    }
+</style>

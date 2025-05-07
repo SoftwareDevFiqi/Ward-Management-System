@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "_Layout";
+}
+@await Html.PartialAsync("_Navbar")
+@await Html.PartialAsync("_Notification")
+
+@{
+    ViewData["Title"] = "Nurse Dashboard";
+}
+
+<h2 class="text-center my-4">Nurse Dashboard</h2>
+
+<div class="container mt-4">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-info shadow">
+                <div class="card-body">
+                    <i class="fas fa-user-injured fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Patients</h5>
+                    <h2 class="card-text">@ViewData["TotalPatients"]</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <i class="fas fa-bed fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Admitted Patients</h5>
+                    <h2 class="card-text">@ViewData["TotalAdmittedPatients"]</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-warning shadow">
+                <div class="card-body">
+                    <i class="fas fa-user-check fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Discharged Patients</h5>
+                    <h2 class="card-text">@ViewData["TotalDischargedPatients"]</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <i class="fas fa-pills fa-2x"></i>
+                    <h5 class="card-title mt-2">Total Medications</h5>
+                    <h2 class="card-text">@ViewData["TotalMedications"]</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 1rem; /* Rounded corners */
+        transition: transform 0.2s; /* Animation for hover effect */
+    }
+
+        .card:hover {
+            transform: scale(1.05); /* Scale effect on hover */
+        }
+</style>

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Consumable>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Consumables";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Consumables</h2>
+        <a asp-action="CreateConsumable" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Consumable
+        </a>
+    </div>
+
+    <table class="table table-hover table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Expiry Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var consumable in Model)
+            {
+                <tr>
+                    <td>@consumable.Name</td>
+                    <td>@consumable.Type</td>
+                    <td>@consumable.Quantity</td>
+                    <td>@consumable.ExpiryDate.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a asp-action="TakeStock" asp-route-id="@consumable.ConsumableId" class="btn btn-sm btn-warning mr-2">
+                            <i class="fas fa-boxes"></i> Take Stock
+                        </a>
+                        <a asp-action="ReceiveConsumables" asp-route-id="@consumable.ConsumableId" class="btn btn-sm btn-success">
+                            <i class="fas fa-truck"></i> Receive
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Optional: You can add a tooltip for the action buttons
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+
+    .table th, .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Make buttons look more compact */
+    .btn {
+        margin: 0 5px;
+    }
+
+    /* Hover effect for table rows */
+    tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
+        transition: background-color 0.3s ease;
+    }
+
+    /* Adjust button size */
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+</style>

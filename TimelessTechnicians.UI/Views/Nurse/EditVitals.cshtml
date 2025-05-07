@@ -1,0 +1,87 @@
+﻿@model TimelessTechnicians.UI.ViewModel.PatientVitalViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Edit Vitals";
+}
+
+<div class="container">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+
+    <div class="card glassmorphic">
+        <div class="card-body">
+            <form asp-action="EditVitals" method="post">
+                <div class="form-group">
+                    <label asp-for="PatientId" class="control-label">Patient</label>
+                    <select asp-for="PatientId" class="form-control" asp-items="ViewBag.PatientList"></select>
+                    <span asp-validation-for="PatientId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BloodPressure" class="control-label">Blood Pressure</label>
+                    <input asp-for="BloodPressure" class="form-control" />
+                    <span asp-validation-for="BloodPressure" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Temperature" class="control-label">Temperature</label>
+                    <input asp-for="Temperature" class="form-control" />
+                    <span asp-validation-for="Temperature" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SugarLevel" class="control-label">Sugar Level</label>
+                    <input asp-for="SugarLevel" class="form-control" />
+                    <span asp-validation-for="SugarLevel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RecordedDate" class="control-label">Recorded Date</label>
+                    <input asp-for="RecordedDate" class="form-control" type="date" />
+                    <span asp-validation-for="RecordedDate" class="text-danger"></span>
+                </div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+            <div class="mt-3">
+                <a asp-action="ListVitals" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 30px;
+        max-width: 800px;
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        background-color: white;
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem; /* Space between form elements */
+    }
+
+    .btn {
+        width: 100%; /* Full-width buttons for consistency */
+    }
+</style>

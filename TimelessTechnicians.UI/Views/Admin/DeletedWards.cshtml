@@ -1,0 +1,128 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Ward>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Deleted Wards";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Deleted Wards</h2>
+
+    <!-- Form to restore deleted wards -->
+    <form asp-action="RestoreDeletedWards" method="post">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="selectAll" />
+                        </th>
+                        <th>
+                            <a asp-action="DeletedWards" asp-route-sortOrder="@ViewData["NameSortParm"]" class="text-decoration-none">Ward Name</a>
+                        </th>
+                        <th>Description</th>
+                        <th>
+                            <a asp-action="DeletedWards" asp-route-sortOrder="@ViewData["CapacitySortParm"]" class="text-decoration-none">Capacity</a>
+                        </th>
+                        <th>Remaining Capacity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var ward in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="selectedWards" value="@ward.WardId" />
+                                </td>
+                                <td>@ward.WardName</td>
+                                <td>@ward.Description</td>
+                                <td>@ward.Capacity</td>
+                                <td>@ward.RemainingCapacity</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">No deleted wards found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Restore selected wards button -->
+        <div class="d-flex justify-content-end mb-4">
+            <button type="submit" class="btn btn-success me-2">
+                <i class="fas fa-undo"></i> Restore Selected Wards
+            </button>
+            <a asp-action="Wards" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </form>
+
+    <!-- Pagination controls -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @if ((int)ViewData["PageNumber"] > 1) // Check if the current page is greater than 1
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="DeletedWards" asp-route-pageNumber="@((int)ViewData["PageNumber"] - 1)" asp-route-sortOrder="@ViewData["CurrentSort"]">
+                        Previous
+                    </a>
+                </li>
+            }
+
+            @if ((int)ViewData["PageNumber"] < (int)ViewData["TotalPages"]) // Check if the current page is less than the total pages
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="DeletedWards" asp-route-pageNumber="@((int)ViewData["PageNumber"] + 1)" asp-route-sortOrder="@ViewData["CurrentSort"]">
+                        Next
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+<script>
+    // JavaScript for 'Select All' checkbox functionality
+    document.getElementById('selectAll').addEventListener('change', function (e) {
+        var checkboxes = document.querySelectorAll('input[name="selectedWards"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = e.target.checked;
+        });
+    });
+</script>
+
+<style>
+    /* Custom styles */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* Light blue background on row hover */
+    }
+
+    .btn i {
+        margin-right: 5px; /* Space between icon and text */
+    }
+
+    /* Pagination styles */
+    .pagination .page-link {
+        margin: 0 5px; /* Space between pagination buttons */
+    }
+</style>

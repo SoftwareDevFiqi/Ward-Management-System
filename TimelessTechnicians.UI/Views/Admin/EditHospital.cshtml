@@ -1,0 +1,117 @@
+﻿@model TimelessTechnicians.UI.Models.HospitalInfo
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Edit Hospital";
+}
+
+<div class="container">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+
+    <div class="card glassmorphic">
+        <div class="card-header">
+            <h4 class="card-title">Edit Hospital Info</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="EditHospital">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="HospitalInfoId" />
+
+                <div class="form-group">
+                    <label asp-for="HospitalName" class="control-label">Hospital Name</label>
+                    <input asp-for="HospitalName" class="form-control" placeholder="Enter hospital name" />
+                    <span asp-validation-for="HospitalName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label">Address</label>
+                    <input asp-for="Address" class="form-control" placeholder="Enter address" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label">Email</label>
+                    <input asp-for="Email" class="form-control" type="email" placeholder="Enter email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="WebsiteUrl" class="control-label">Website URL</label>
+                    <input asp-for="WebsiteUrl" class="form-control" type="url" placeholder="Enter website URL" />
+                    <span asp-validation-for="WebsiteUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a asp-action="HospitalInfo" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 20px;
+        padding: 20px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        max-width: 600px; /* Limits the width for better alignment */
+    }
+
+    .card-header {
+        background: rgba(255, 255, 255, 0.8);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        padding: 15px;
+    }
+
+    .card-title {
+        margin: 0;
+    }
+
+    .card-body {
+        background: rgba(255, 255, 255, 0.6);
+        padding: 20px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem; /* Space between form elements */
+    }
+
+    .btn {
+        width: 100%; /* Full-width buttons for consistency */
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .text-danger {
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+</style>

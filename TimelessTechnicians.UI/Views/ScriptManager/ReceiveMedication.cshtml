@@ -1,0 +1,62 @@
+﻿@model TimelessTechnicians.UI.Models.Prescription
+@await Html.PartialAsync("_Navbar")
+
+<div class="container mt-5">
+    <h2 class="text-center">Receive Medication</h2>
+
+    <div class="card glassmorphic shadow-sm mt-4">
+        <div class="card-body">
+            <h5 class="card-title text-center">Confirm Medication Receipt</h5>
+            <p class="text-center">
+                Are you sure you want to receive the medication for <strong>@Model.Patient.FirstName @Model.Patient.LastName</strong>?
+            </p>
+
+            <hr />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Doctor:</strong> @Model.Doctor.FirstName @Model.Doctor.LastName</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Medication:</strong> @Model.Medication</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Dosage:</strong> @Model.Dosage</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Date Written:</strong> @Model.DateWritten.ToString("yyyy-MM-dd")</p>
+                </div>
+            </div>
+
+            <form asp-action="ReceiveMedicationConfirmed" method="post" class="text-center mt-4">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-success btn-lg">Receive Medication</button>
+                <a asp-action="ListPrescriptions" class="btn btn-secondary btn-lg">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+    }
+
+    .card {
+        border-radius: 15px;
+        margin-bottom: 20px;
+        transition: transform 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+    }
+</style>

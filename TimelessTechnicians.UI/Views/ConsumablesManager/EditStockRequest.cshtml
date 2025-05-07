@@ -1,0 +1,44 @@
+﻿@model TimelessTechnicians.UI.Models.StockRequest
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Edit Stock Request";
+}
+
+<h1>Edit Stock Request</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="EditStockRequest" method="post">
+            <input type="hidden" asp-for="StockRequestId" />
+            <input type="hidden" asp-for="ConsumableId" /> <!-- Keep this hidden to retain the ID -->
+
+            <div class="form-group">
+                <label class="control-label">Consumable</label>
+                <p>@Model.Consumable?.Name</p> <!-- Display the consumable name -->
+                <span asp-validation-for="ConsumableId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RequestedQuantity" class="control-label">Requested Quantity</label>
+                <input asp-for="RequestedQuantity" class="form-control" />
+                <span asp-validation-for="RequestedQuantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RequestDate" class="control-label">Request Date</label>
+                <input asp-for="RequestDate" class="form-control" type="datetime-local" />
+                <span asp-validation-for="RequestDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a asp-action="ListStockRequests" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}

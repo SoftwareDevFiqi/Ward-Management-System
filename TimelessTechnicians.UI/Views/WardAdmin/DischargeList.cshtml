@@ -1,0 +1,63 @@
+﻿@model TimelessTechnicians.UI.ViewModel.DischargeListViewModel
+
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewBag.Title = "Discharge List";
+}
+
+<h2>Discharge List</h2>
+@await Html.PartialAsync("_Notification")
+
+<form method="get" asp-action="DischargeList">
+    <div class="form-group">
+        <label for="searchTerm">Search</label>
+        <input type="text" id="searchTerm" name="searchTerm" class="form-control" value="@Model.SearchTerm" placeholder="Search by patient name" />
+    </div>
+    <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="endDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Patient Name</th>
+            <th>Discharge Date</th>
+            <th>Notes</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var discharge in Model.Discharges)
+        {
+            <tr>
+                <td>@discharge.PatientName</td>
+                <td>@discharge.DischargeDate.ToString("dd/MM/yyyy")</td>
+                <td>@discharge.Notes</td>
+                <td>
+                    <a asp-action="ReAdmit" asp-route-admitPatientId="@discharge.Id" class="btn btn-success">
+                        <i class="fas fa-plus-circle"></i> Re-Admit
+                    </a>
+                    <a asp-action="EditDischarge" asp-route-id="@discharge.Id" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a asp-action="DeleteDischarge" asp-route-id="@discharge.Id" class="btn btn-danger"
+                       onclick="return confirm('Are you sure you want to delete this discharge record?');">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Discharge" class="btn btn-primary">Discharge a Patient</a>

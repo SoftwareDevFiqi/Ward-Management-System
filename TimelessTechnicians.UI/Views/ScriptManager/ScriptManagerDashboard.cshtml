@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@await Html.PartialAsync("_Navbar")
+@await Html.PartialAsync("_Notification")
+
+<div class="container mt-5">
+    <h2 class="text-center">Dashboard Statistics</h2>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card glassmorphic shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Prescriptions</h5>
+                    <p class="card-text" style="font-size: 2rem;">@ViewData["TotalPrescriptions"]</p>
+                </div>
+            </div>
+        </div>
+   
+        <div class="col-md-4">
+            <div class="card glassmorphic shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Doctors</h5>
+                    <p class="card-text" style="font-size: 2rem;">@ViewData["TotalDoctors"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card glassmorphic shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Forwarded</h5>
+                    <p class="card-text" style="font-size: 2rem;">@ViewData["TotalForwarded"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card glassmorphic shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Delivered</h5>
+                    <p class="card-text" style="font-size: 2rem;">@ViewData["TotalDelivered"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card glassmorphic shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Received</h5>
+                    <p class="card-text" style="font-size: 2rem;">@ViewData["TotalReceived"]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card {
+        border-radius: 15px;
+        margin-bottom: 20px;
+        transition: transform 0.3s;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+</style>

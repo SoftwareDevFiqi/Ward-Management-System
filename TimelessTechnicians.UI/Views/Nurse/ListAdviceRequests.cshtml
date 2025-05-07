@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.ViewModel.DoctorAdviceRequestListViewModel>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Doctor Advice Requests";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-group">
+    <a href="@Url.Action("RequestAdvice", "Nurse")" class="btn btn-secondary">Back to List</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nurse</th>
+            <th>Doctor</th>
+            <th>Patient</th>
+            <th>Details</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in Model)
+        {
+            <tr>
+                <td>@request.Id</td>
+                <td>@request.NurseName</td>
+                <td>@request.DoctorName</td>
+                <td>@request.PatientName</td>
+                <td>@request.RequestDetails</td>
+                <td>@request.RequestDate.ToString("d")</td>
+                <td>@request.Status</td>
+                <td>
+                    @if (request.Status == DoctorAdviceRequestStatus.Pending)
+                    {
+                        <form asp-action="MarkAsCompleted" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@request.Id" />
+                            <button type="submit" class="btn btn-success">Mark as Completed</button>
+                        </form>
+                    }
+
+                    <a asp-action="EditAdviceRequest" asp-route-id="@request.Id" class="btn btn-primary">Edit</a>
+
+                    <form asp-action="DeleteRequest" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@request.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

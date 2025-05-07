@@ -1,0 +1,106 @@
+﻿@model TimelessTechnicians.UI.ViewModel.DischargeViewModel
+
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewBag.Title = "Delete Discharge Record";
+}
+
+<div class="container">
+    <div class="card glassmorphic">
+        <div class="card-body">
+            <h1 class="page-title">@ViewBag.Title</h1>
+
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning!</strong> You are about to delete a discharge record. This action cannot be undone.
+            </div>
+
+            <form method="post" asp-action="ConfirmDeleteDischarge">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label for="patientFullName">Patient Name</label>
+                    <input type="text" id="patientFullName" class="form-control" value="@Model.PatientFullName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="dischargeDate">Discharge Date</label>
+                    <input type="text" id="dischargeDate" class="form-control" value="@Model.DischargeDate.ToString("dd/MM/yyyy")" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" class="form-control" readonly>@Model.Notes</textarea>
+                </div>
+
+                <input type="hidden" name="Id" value="@Model.Id" />
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a asp-action="DischargeList" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Container for main content */
+    .container {
+        margin-top: 30px;
+        max-width: 800px;
+        padding: 15px;
+    }
+
+    /* Page title styling */
+    .page-title {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Card and glassmorphism styling */
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        background-color: white;
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Alert styling */
+    .alert {
+        margin-bottom: 20px; /* Space between alert and form */
+    }
+
+    /* Text and button styling */
+    .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    /* Media queries for responsiveness */
+    /* Add any additional responsive styles if needed */
+</style>

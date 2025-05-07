@@ -1,0 +1,31 @@
+﻿@model TimelessTechnicians.UI.ViewModel.ReAdmitPatientViewModel
+
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewBag.Title = "Re-Admit Patient";
+}
+
+<h2>Re-Admit Patient</h2>
+
+<form method="post" asp-action="ReAdmit">
+    <div class="form-group">
+        <label for="admitPatientId">Select Patient</label>
+        <select id="admitPatientId" name="AdmitPatientId" class="form-control" required>
+            <option value="">Select a patient</option>
+            @foreach (var patient in Model.DischargedPatients)
+            {
+                <option value="@patient.Value">@patient.Text</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="reAdmissionReason">Reason for Re-Admittance</label>
+        <textarea id="reAdmissionReason" name="ReAdmissionReason" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Re-Admit</button>
+</form>
+
+<a asp-action="DischargeList" class="btn btn-secondary">Back to Discharge List</a>
+<a asp-action="ReAdmissionHistory" class="btn btn-secondary">Back to Discharge List</a>

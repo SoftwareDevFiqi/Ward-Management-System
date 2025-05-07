@@ -1,0 +1,45 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Condition>
+@{
+    ViewData["Title"] = "Deleted Conditions";
+}
+
+<h2>Deleted Conditions</h2>
+
+
+
+<form method="post" asp-action="BulkRestoreConditions">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="select-all" />
+                </th>
+                <th>Condition ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var condition in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedConditions" value="@condition.ConditionId" />
+                    </td>
+                    <td>@condition.ConditionId</td>
+                    <td>@condition.Name</td>
+                    <td>@condition.Description</td>
+                    <td>
+                        <form method="post" asp-action="RestoreCondition" asp-route-id="@condition.ConditionId">
+                            <button type="submit" class="btn btn-secondary">Restore</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Restore Selected</button>
+</form>
+
+

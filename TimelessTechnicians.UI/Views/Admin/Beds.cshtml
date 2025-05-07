@@ -1,0 +1,233 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Bed>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Beds";
+    var currentSort = ViewData["CurrentSort"] as string;
+    var pageNumber = ViewData["PageNumber"] as int? ?? 1;
+    var totalPages = ViewData["TotalPages"] as int? ?? 1;
+    var currentSearch = ViewData["CurrentSearch"] as string; // Get current search string
+    var selectedBedIds = TempData["SelectedBedIds"] as List<int> ?? new List<int>();
+}
+
+<div class="container">
+    <h1>Beds</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a asp-action="AddBed" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New Bed
+            </a>
+            <a asp-action="ExportToPdf" class="btn btn-secondary">
+                <i class="fas fa-file-pdf"></i> Export to PDF
+            </a>
+        </div>
+
+        <a asp-action="DeletedBeds" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i> View Deleted Beds
+        </a>
+
+
+
+    </div>
+
+    <!-- Search Form -->
+    <form asp-action="Beds" method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchString" id="bedAutocomplete" value="@currentSearch" placeholder="Search by Bed Number, Status, or Ward Name" aria-label="Search" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+  
+    <form asp-action="BulkDelete" method="post">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        <input type="checkbox" id="select-all" />
+                    </th>
+                    <th>
+                        <a asp-action="Beds" asp-route-sortOrder="@(currentSort == "bednumber" ? "bednumber_desc" : "bednumber")"
+                           class="@(currentSort == "bednumber" ? "sort-asc" : (currentSort == "bednumber_desc" ? "sort-desc" : ""))">Bed Number</a>
+                    </th>
+                   
+                    <th>
+                        <a asp-action="Beds" asp-route-sortOrder="@(currentSort == "ward" ? "ward_desc" : "ward")"
+                           class="@(currentSort == "ward" ? "sort-asc" : (currentSort == "ward_desc" ? "sort-desc" : ""))">Ward</a>
+                    </th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedBeds" value="@item.BedId"
+                                @(selectedBedIds.Contains(item.BedId) ? "checked" : "") />
+                            </td>
+                            <td>@item.BedNumber</td>
+                            <td>@item.Ward.WardName</td>
+                        
+                            <td>
+                                <a asp-action="EditBed" asp-route-id="@item.BedId" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a asp-action="DeleteBed" asp-route-id="@item.BedId" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this bed?');">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </td>
+
+                          
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">No beds found.</td>
+                    </tr>
+                }
+            </tbody>
+
+          
+
+        </table>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button type="submit" class="btn btn-danger">Delete Selected Beds</button>
+        </div>
+    </form>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Bed Pagination">
+        <ul class="pagination justify-content-center">
+            @if (pageNumber > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Beds" asp-route-pageNumber="@(pageNumber - 1)" asp-route-sortOrder="@currentSort" asp-route-searchString="@currentSearch">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+            }
+            @if (pageNumber < totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Beds" asp-route-pageNumber="@(pageNumber + 1)" asp-route-sortOrder="@currentSort" asp-route-searchString="@currentSearch">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Load checkbox states from localStorage
+        const checkboxes = document.querySelectorAll('input[name="selectedBeds"]');
+        checkboxes.forEach(function (checkbox) {
+            const bedId = checkbox.value; // Assuming the value is the ID of the bed
+            checkbox.checked = localStorage.getItem(bedId) === 'true';
+
+                // Save the state in localStorage when the checkbox is changed
+            checkbox.addEventListener('change', function () {
+                localStorage.setItem(bedId, checkbox.checked);
+                });
+            });
+
+            // Select all checkboxes functionality
+        const selectAllCheckbox = document.getElementById('select-all');
+        if (selectAllCheckbox) {
+            selectAllCheckbox.onclick = function () {
+                const isChecked = this.checked;
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = isChecked;
+                    localStorage.setItem(checkbox.value, isChecked); // Save the state in localStorage
+                });
+            };
+        }
+    });
+
+    
+</script>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Autocomplete functionality for bed numbers
+            $("#bedAutocomplete").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("GetBedNames", "Beds")', // Adjust this to your actual action and controller
+                        data: { term: request.term },
+                        success: function (data) {
+                            response(data.map(b => ({
+                                label: b.label, // This is what is shown in the suggestion box
+                                value: b.value  // This is what is set in the input field when selected
+                            })));
+                        }
+                    });
+                },
+                minLength: 2 // Minimum length of input before sending a request
+            });
+        });
+    </script>
+}
+
+
+<style>
+    .container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .thead-dark th {
+        background-color: #343a40; /* Dark background for header */
+        color: white; /* White text for better contrast */
+    }
+
+    .btn {
+        margin-left: 5px;
+    }
+
+    .pagination {
+        margin-top: 20px;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff; /* Change to your primary color */
+        border-color: #007bff;
+    }
+
+    .page-link:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        color: #fff;
+    }
+
+    /* Hover Effects for Table Rows */
+    tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
+        transition: background-color 0.3s ease;
+    }
+
+    /* Hover Effects for Buttons */
+    .btn i {
+        transition: transform 0.3s ease, color 0.3s ease; /* Transition for scaling and color */
+    }
+
+    .btn:hover i {
+        transform: scale(1.2); /* Scale up the icon on hover */
+        color: #007bff; /* Change color on hover */
+    }
+</style>

@@ -1,0 +1,99 @@
+﻿@model TimelessTechnicians.UI.ViewModel.PatientMovementViewModel
+
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewData["Title"] = "Record Patient Movement";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="card glassmorphic mt-4">
+        <div class="card-header">
+            <h4 class="mb-0"><i class="fas fa-arrows-alt"></i> Record Movement</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="RecordMovement" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="AdmitPatientId" class="control-label">Select Patient</label>
+                    <select asp-for="AdmitPatientId" class="form-control" asp-items="Model.PatientList">
+                        <option value="">-- Select a patient --</option>
+                    </select>
+                    <span asp-validation-for="AdmitPatientId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MovementDate" class="control-label">Movement Date</label>
+                    <input asp-for="MovementDate" class="form-control" type="date" />
+                    <span asp-validation-for="MovementDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MovementType" class="control-label">Movement Type</label>
+                    <select asp-for="MovementType" class="form-control" asp-items="Html.GetEnumSelectList<TimelessTechnicians.UI.ViewModel.MovementType>()"></select>
+                    <span asp-validation-for="MovementType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Location" class="control-label">Location</label>
+                    <input asp-for="Location" class="form-control" placeholder="Location" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Notes" class="control-label">Notes</label>
+                    <input asp-for="Notes" class="form-control" placeholder="Notes" />
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Record Movement
+                    </button>
+                    <a asp-action="ManagePatientMovements" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    .card {
+        border-radius: 10px;
+        padding: 20px; /* Inner spacing */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        margin-top: 20px; /* Space from the title */
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(15px);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem; /* Space between form groups */
+    }
+
+    .text-danger {
+        margin-top: 0.25rem; /* Space above validation messages */
+    }
+
+    .btn {
+        margin-right: 5px; /* Space between buttons */
+    }
+
+    .button-container {
+        margin-top: 20px; /* Space above buttons */
+    }
+</style>

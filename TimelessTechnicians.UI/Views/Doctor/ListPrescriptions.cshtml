@@ -1,0 +1,56 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Prescription>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewBag.Title = "List of Prescriptions"; // Set the title
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">List of Prescriptions</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Patient</th>
+                    <th>Medication</th>
+                    <th>Dosage</th>
+                    <th>Date Written</th>
+                    <th>Status</th>
+                    <th>Actions</th> <!-- Actions for editing and deleting prescriptions -->
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var prescription in Model)
+                    {
+                        <tr>
+                            <td>@prescription.Patient.FirstName @prescription.Patient.LastName</td>
+                            <td>@prescription.Medication</td>
+                            <td>@prescription.Dosage</td>
+                            <td>@prescription.DateWritten.ToString("yyyy-MM-dd")</td>
+                            <td>@prescription.Status</td>
+                            <td>
+                                <a asp-action="EditPrescription" asp-route-id="@prescription.Id" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a asp-action="DeletePrescription" asp-route-id="@prescription.Id" class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to delete this prescription?');">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">No prescriptions found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

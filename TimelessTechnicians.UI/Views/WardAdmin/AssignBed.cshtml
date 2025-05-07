@@ -1,0 +1,97 @@
+﻿@model TimelessTechnicians.UI.ViewModel.AssignBedViewModel
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+<h2>Assign Bed</h2>
+
+<div class="content">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4 class="mb-0"><i class="fas fa-bed"></i> Assign Bed</h4>
+        </div>
+        <div class="card-body">
+            <hr />
+            <form asp-action="AssignBed" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group">
+                    <label asp-for="AdmitPatientId" class="control-label">
+                        <i class="fas fa-user"></i> Select Patient
+                    </label>
+                    <select asp-for="AdmitPatientId" class="form-control" asp-items="Model.PatientList">
+                        <option value="">-- Select a Patient --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="BedId" class="control-label">
+                        <i class="fas fa-bed"></i> Select Bed
+                    </label>
+                    <select asp-for="BedId" class="form-control" asp-items="Model.BedList">
+                        <option value="">-- Select a Bed --</option>
+                    </select>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Assign Bed
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a asp-action="ListAssignedBed" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to List Assigned Bed
+        </a>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin-top: 20px;
+        border-radius: 10px;
+        padding: 20px; /* Inner spacing */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.9); /* Glassmorphism background */
+        backdrop-filter: blur(10px);
+    }
+
+    .card-header {
+        background: rgba(0, 123, 255, 0.85);
+        color: white;
+        padding: 15px; /* Add padding for better spacing */
+        border-top-left-radius: 0.5rem; /* Rounded corners on top */
+        border-top-right-radius: 0.5rem;
+    }
+
+    h4 {
+        margin: 0; /* Remove margin for header */
+        font-size: 1.25rem; /* Adjust font size */
+    }
+
+    .form-control {
+        border: 1px solid #ced4da; /* Standard border */
+        border-radius: 0.25rem; /* Standard rounded corners */
+        transition: border-color 0.2s; /* Transition for focus */
+    }
+
+        .form-control:focus {
+            border-color: #007bff; /* Blue border on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Glow effect on focus */
+        }
+
+    .text-danger {
+        font-size: 0.9rem; /* Smaller font size for error messages */
+    }
+
+    /* Space between form groups */
+    .form-group {
+        margin-bottom: 1.5rem; /* Increased spacing between form groups */
+    }
+
+    .btn {
+        margin-top: 10px; /* Space above buttons */
+    }
+</style>

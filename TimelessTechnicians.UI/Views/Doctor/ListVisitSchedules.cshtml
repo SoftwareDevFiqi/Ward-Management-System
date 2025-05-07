@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.PatientVisitSchedule>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewBag.Title = "Visit Schedules";
+}
+
+<h2>Visit Schedules</h2>
+
+<p>
+    <a asp-action="AddVisitSchedule" class="btn btn-success">Add New Visit Schedule</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Patient Name</th>
+            <th>Admission Date</th>
+            <th>Visit Date</th>
+            <th>Status</th>
+            <th>Purpose</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var schedule in Model)
+            {
+                <tr>
+                    <td>@schedule.AdmitPatient.Patient.FirstName @schedule.AdmitPatient.Patient.LastName</td>
+                    <td>@schedule.AdmitPatient.AdmissionDate.ToString("dd/MM/yyyy")</td>
+                    <td>@schedule.ScheduledDate.ToString("dd/MM/yyyy")</td>
+                    <td>@schedule.Status.ToString()</td>
+                    <td>@schedule.VisitReason</td>
+                    <td>
+                        <a asp-action="EditVisitSchedule" asp-route-id="@schedule.Id" class="btn btn-sm btn-primary">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-action="DeleteVisitSchedule" asp-route-id="@schedule.Id" class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure you want to delete this visit schedule?');">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No scheduled visits found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

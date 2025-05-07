@@ -1,0 +1,80 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.Models.Consumable>
+@{
+    ViewData["Title"] = "Deleted Consumables";
+}
+
+<h1>Deleted Consumables</h1>
+
+<div>
+    <form asp-action="DeletedConsumables" method="get" class="form-inline">
+        <div class="form-group">
+            <input type="text" name="searchString" class="form-control" placeholder="Search..." value="@ViewData["CurrentSearch"]" />
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<form asp-action="RestoreConsumables" method="post" id="restoreForm">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="selectAll" />
+                </th>
+                <th>
+                    @Html.ActionLink("Name", "DeletedConsumables", new { sortOrder = ViewData["CurrentSort"] == "name_desc" ? "" : "name_desc", searchString = ViewData["CurrentSearch"] })
+                </th>
+                <th>
+                    @Html.ActionLink("Type", "DeletedConsumables", new { sortOrder = ViewData["CurrentSort"] == "type_desc" ? "" : "type_desc", searchString = ViewData["CurrentSearch"] })
+                </th>
+                <th>
+                    @Html.ActionLink("Expiry Date", "DeletedConsumables", new { sortOrder = ViewData["CurrentSort"] == "expiry_date_desc" ? "" : "expiry_date_desc", searchString = ViewData["CurrentSearch"] })
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var consumable in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="consumableIds" value="@consumable.ConsumableId" />
+                        </td>
+                        <td>@consumable.Name</td>
+                        <td>@consumable.Type</td>
+                        <td>@consumable.ExpiryDate.ToShortDateString()</td>
+                        <td>
+                            <form asp-action="RestoreConsumable" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@consumable.ConsumableId" />
+                                <button type="submit" class="btn btn-success btn-sm">Restore</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No deleted consumables found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Restore Selected</button>
+</form>
+
+@section Scripts {
+    <script>
+        // Script to handle "Select All" checkbox functionality
+        document.getElementById('selectAll').onclick = function () {
+            var checkboxes = document.querySelectorAll('input[name="consumableIds"]');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        };
+    </script>
+}
+

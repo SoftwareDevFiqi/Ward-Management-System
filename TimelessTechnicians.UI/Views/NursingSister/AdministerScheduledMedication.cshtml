@@ -1,0 +1,55 @@
+﻿@model TimelessTechnicians.UI.ViewModel.ScheduledMedicationViewModel
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+<div class="container mt-4">
+    <h2 class="text-center">Administer Scheduled Medication</h2>
+
+    <form asp-action="AdministerScheduledMedication" method="post" class="bg-light p-4 rounded shadow">
+        <div class="form-group">
+            <label asp-for="MedicationId" class="font-weight-bold">Medication</label>
+            <select asp-for="MedicationId" class="form-control" asp-items="ViewBag.MedicationList">
+                <option value="">Select Medication</option>
+            </select>
+            <span asp-validation-for="MedicationId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Dosage" class="font-weight-bold">Dosage</label>
+            <input asp-for="Dosage" class="form-control" placeholder="Enter dosage" />
+            <span asp-validation-for="Dosage" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AdministeredDate" class="font-weight-bold">Administered Date</label>
+            <input asp-for="AdministeredDate" class="form-control" type="datetime-local" />
+            <span asp-validation-for="AdministeredDate" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-block">Administer Medication</button>
+        <a asp-action="ListScheduledMedications" class="btn btn-secondary btn-block mt-2">Cancel</a>
+    </form>
+</div>
+
+<style>
+    .form-control:focus {
+        border-color: #007bff; /* Customize focus color */
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Add shadow on focus */
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important; /* Light background for form */
+    }
+
+    .rounded {
+        border-radius: 0.5rem; /* Rounded corners */
+    }
+
+    .shadow {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    h2 {
+        margin-bottom: 20px; /* Spacing below title */
+    }
+</style>

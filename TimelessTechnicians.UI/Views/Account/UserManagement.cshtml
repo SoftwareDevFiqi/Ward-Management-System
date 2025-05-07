@@ -1,0 +1,206 @@
+﻿@model IEnumerable<ApplicationUser>
+@using static TimelessTechnicians.UI.Models.ApplicationUser
+@await Html.PartialAsync("_Navbar")
+@await Html.PartialAsync("_Notification")
+
+@{
+    ViewBag.Title = "User Management";
+    var currentSort = ViewData["CurrentSort"] as string;
+    var pageNumber = ViewData["PageNumber"] as int? ?? 1;
+    var totalPages = ViewData["TotalPages"] as int? ?? 1;
+}
+
+<h2>User Management</h2>
+
+
+<!-- Search and Filter Form -->
+<form method="get" asp-action="UserManagement" class="row">
+    <div class="form-group col-md-6">
+        <label for="searchQuery">Search Users:</label>
+        <input type="text" id="searchQuery" name="searchQuery" class="form-control" placeholder="Search by username, email, or name" value="@Context.Request.Query["searchQuery"]" />
+    </div>
+    <div class="form-group col-md-4">
+        <label for="statusFilter">Filter by Status:</label>
+        <select id="statusFilter" name="statusFilter" class="form-control">
+            <option value="">All</option>
+            @foreach (var status in Enum.GetValues(typeof(UserStatus)).Cast<UserStatus>())
+            {
+                <option value="@status"
+                        selected="@(Context.Request.Query["statusFilter"] == status.ToString() ? "selected" : null)">
+                    @status
+                </option>
+            }
+        </select>
+    </div>
+    <div class="form-group col-md-2">
+        <button type="submit" class="btn btn-primary mt-4">Search & Filter</button>
+    </div>
+</form>
+
+<!-- Bulk Action Form -->
+<form method="post" asp-action="BulkAction" id="bulkActionForm">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="selectAll" />
+                    </th>
+                    <th>
+                        <a asp-action="UserManagement" asp-route-sortOrder="@(currentSort == "username_desc" ? "username" : "username_desc")" asp-route-pageNumber="@(pageNumber)">
+                            User Name
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="UserManagement" asp-route-sortOrder="@(currentSort == "email_desc" ? "email" : "email_desc")" asp-route-pageNumber="@(pageNumber)">
+                            Email
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="UserManagement" asp-route-sortOrder="@(currentSort == "status_desc" ? "status" : "status_desc")" asp-route-pageNumber="@(pageNumber)">
+                            Status
+                        </a>
+                    </th>
+                    <th>Lockout Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selectedUserIds" value="@user.Id" />
+                        </td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <span class="badge @(user.Status == UserStatus.Active ? "badge-success" : user.Status == UserStatus.Inactive ? "badge-secondary" : "badge-warning")">
+                                @user.Status
+                            </span>
+                        </td>
+                        <td>
+                            @if (user.LockoutEnd.HasValue && user.LockoutEnd > DateTimeOffset.UtcNow)
+                            {
+                                <span class="text-danger">Locked until @user.LockoutEnd.Value.ToString("g")</span>
+                            }
+                            else if (user.AccessFailedCount >= 3)
+                            {
+                                <span class="text-warning">Multiple failed attempts</span>
+                            }
+                            else
+                            {
+                                <span class="text-success">Active</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                @if (user.Status == UserStatus.Inactive)
+                                {
+                                    <form asp-action="ReactivateAccount" method="get" class="d-inline">
+                                        <input type="hidden" name="userId" value="@user.Id" />
+                                        <button type="submit" class="btn btn-success btn-sm">Reactivate</button>
+                                    </form>
+                                }
+                                @if (user.LockoutEnd.HasValue && user.LockoutEnd > DateTimeOffset.UtcNow)
+                                {
+                                    <form asp-action="UnlockAccountPost" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="userId" value="@user.Id" />
+                                        <button type="submit" class="btn btn-warning btn-sm">Unlock</button>
+                                    </form>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bulk Action Buttons -->
+    <div class="form-group mt-3">
+        <button type="submit" name="action" value="unlock" class="btn btn-warning">Unlock Selected Accounts</button>
+        <button type="submit" name="action" value="deactivate" class="btn btn-secondary">Deactivate Selected Users</button>
+        <button type="submit" name="action" value="delete" class="btn btn-danger">Delete Selected Users</button>
+        <button type="submit" name="action" value="reactivate" class="btn btn-danger">Reactive Selected Users</button>
+
+    </div>
+</form>
+
+<!-- Pagination Controls -->
+<nav aria-label="User Management Pagination">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == pageNumber ? "active" : "")">
+                <a class="page-link" asp-action="UserManagement" asp-route-pageNumber="@i" asp-route-sortOrder="@currentSort">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<script>
+    // Select all checkboxes
+    document.getElementById('selectAll').addEventListener('change', function (event) {
+        const checkboxes = document.querySelectorAll('input[name="selectedUserIds"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = event.target.checked;
+        });
+    });
+</script>
+
+
+<style>
+    /* Centering the pagination container */
+    .pagination {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Styling individual pagination items */
+    .pagination .page-item {
+        margin: 0 5px; /* Adds space between pagination items */
+    }
+
+    /* Styling the page links */
+    .pagination .page-link {
+        color: #007bff; /* Default color (Bootstrap primary color) */
+        border: 1px solid #007bff; /* Adds a border */
+        padding: 8px 16px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        font-weight: 500; /* Slightly bolder font for better readability */
+    }
+
+    /* Active pagination link */
+    .pagination .page-item.active .page-link {
+        background-color: #007bff; /* Active page background color */
+        color: white; /* Active page text color */
+        border-color: #007bff;
+        cursor: default; /* Prevent pointer for active page */
+    }
+
+    /* Hover effect for non-active page links */
+    .pagination .page-link:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        color: white; /* White text on hover */
+        border-color: #0056b3;
+    }
+
+    /* Disabling hover and pointer for active items */
+    .pagination .page-item.active .page-link:hover {
+        background-color: #007bff;
+        color: white;
+        cursor: default;
+    }
+
+    /* Rounded corners for a smoother look */
+    .pagination .page-link {
+        border-radius: 4px;
+    }
+
+    
+</style>
+

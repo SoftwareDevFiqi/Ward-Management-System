@@ -1,0 +1,53 @@
+﻿@model TimelessTechnicians.UI.Models.MedicationPrescription
+
+<h2>Edit Medication Prescription</h2>
+
+<div>
+    <h4>@ViewData["PatientName"]</h4>
+    <hr />
+</div>
+
+<form asp-action="EditMedicationPrescription" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="AdmitPatientId" class="control-label">Admitted Patient</label>
+        <select asp-for="AdmitPatientId" class="form-control"
+                asp-items="@(ViewBag.AdmittedPatients ?? new SelectList(Enumerable.Empty<SelectListItem>()))">
+            <option value="">-- Select Patient --</option>
+        </select>
+        <span asp-validation-for="AdmitPatientId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MedicationId" class="control-label">Medication</label>
+        <select asp-for="MedicationId" class="form-control"
+                asp-items="@(ViewBag.Medications ?? new SelectList(Enumerable.Empty<SelectListItem>()))">
+            <option value="">-- Select Medication --</option>
+        </select>
+        <span asp-validation-for="MedicationId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Dosage" class="control-label">Dosage</label>
+        <input asp-for="Dosage" class="form-control" placeholder="e.g., 500mg" />
+        <span asp-validation-for="Dosage" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DatePrescribed" class="control-label">Date Prescribed</label>
+        <input asp-for="DatePrescribed" class="form-control" type="date" />
+        <span asp-validation-for="DatePrescribed" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-action="ListMedicationPrescriptions" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+@section Scripts {
+    await Html.RenderPartialAsync("_ValidationScriptsPartial")
+}

@@ -1,0 +1,74 @@
+﻿@model TimelessTechnicians.UI.ViewModel.BedAssignmentListViewModel
+
+@await Html.PartialAsync("_Navbar")
+@await Html.PartialAsync("_Notification")
+
+<h2>Bed Assignments</h2>
+
+<div class="glassmorphic">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Bed Number</th>
+                <th>Ward Name</th>
+                <th>Assigned Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var assignment in Model.BedAssignments)
+            {
+                <tr>
+                    <td>@assignment.PatientName</td>
+                    <td>@assignment.BedNumber</td>
+                    <td>@assignment.WardName</td>
+                    <td>@assignment.AssignedDate.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a asp-action="EditAssignBed" asp-route-id="@assignment.Id" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-action="DeleteBedAssignment" asp-route-id="@assignment.Id" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-3">
+    <a asp-action="AssignBed" class="btn btn-primary">
+        <i class="fas fa-arrow-right"></i> Assign New Bed
+    </a>
+</div>
+
+<style>
+    body {
+        background: #f0f0f0; /* Light background for contrast */
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        padding: 20px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 20px; /* Spacing from the title */
+    }
+
+    .table th, .table td {
+        vertical-align: middle; /* Center align the text vertically */
+    }
+
+    .btn {
+        margin-left: 5px; /* Small margin for buttons */
+    }
+
+    .table {
+        margin-bottom: 0; /* Remove bottom margin for better spacing */
+    }
+</style>

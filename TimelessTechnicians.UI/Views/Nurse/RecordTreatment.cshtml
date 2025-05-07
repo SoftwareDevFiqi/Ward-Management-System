@@ -1,0 +1,77 @@
+﻿@model TimelessTechnicians.UI.ViewModel.PatientTreatmentViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Record Treatment";
+}
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="card glassmorphic">
+        <div class="card-body">
+            <form asp-action="RecordTreatment" method="post">
+                <div class="form-group">
+                    <label asp-for="PatientId">Select Patient</label>
+                    @Html.DropDownListFor(model => model.PatientId, Model.PatientList, "Select a Patient", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PatientId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TreatmentDescription">Treatment Description</label>
+                    <textarea asp-for="TreatmentDescription" class="form-control" rows="3"></textarea>
+                    @Html.ValidationMessageFor(model => model.TreatmentDescription, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DatePerformed">Date Performed</label>
+                    <input asp-for="DatePerformed" class="form-control" type="date" />
+                    @Html.ValidationMessageFor(model => model.DatePerformed, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PerformedBy">Performed By</label>
+                    <input asp-for="PerformedBy" class="form-control" value="@User.Identity.Name" readonly />
+                    @Html.ValidationMessageFor(model => model.PerformedBy, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-primary">Record Treatment</button>
+                    <a asp-action="ListTreatments" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 30px;
+        max-width: 600px;
+        padding: 15px;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        background-color: white;
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-control {
+        border-radius: 10px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-danger {
+        font-size: 0.875rem; /* Smaller font size for validation messages */
+    }
+
+    .btn {
+        margin-left: 5px; /* Small margin for buttons */
+    }
+</style>

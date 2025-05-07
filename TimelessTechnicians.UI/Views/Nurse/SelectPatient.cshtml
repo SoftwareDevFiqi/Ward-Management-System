@@ -1,0 +1,17 @@
+﻿@model TimelessTechnicians.UI.ViewModel.PatientHistoryViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewBag.Title = "Select Patient";
+}
+
+<h2>Select Admitted Patient</h2>
+
+<form asp-action="PatientHistory" method="post">
+    <div class="form-group">
+        <label for="patient">Select Patient</label>
+        <select id="patient" name="patientId" class="form-control" asp-items="ViewBag.Patients">
+            <option value="">-- Select a Patient --</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">View History</button>
+</form>

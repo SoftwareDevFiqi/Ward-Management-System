@@ -1,0 +1,108 @@
+﻿@model TimelessTechnicians.UI.ViewModel.EditPatientFolderViewModel
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Edit Patient Folder";
+    ViewData["ShowSidebar"] = true; // Ensure sidebar is shown
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">@ViewData["Title"] for @Model.FullName</h1>
+
+    <div class="card glassmorphic mb-4">
+        <div class="card-header">
+            <h4 class="card-title">Edit Patient Folder</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="EditPatientFolder" method="post">
+
+                <!-- Patient Details Section -->
+                <div class="mb-4">
+                    <h5>Patient Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="CreatedDate" class="form-label">Created Date</label>
+                            <input asp-for="CreatedDate" class="form-control" type="datetime-local" />
+                            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Allergies Section -->
+                <div class="mb-4">
+                    <h5>Select Allergies</h5>
+                    <div class="row">
+                        @foreach (var allergy in Model.Allergies)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input"
+                                           id="allergy_@allergy.AllergyId"
+                                           name="SelectedAllergies"
+                                           value="@allergy.AllergyId"
+                                    @(Model.SelectedAllergies.Contains(allergy.AllergyId) ? "checked" : "") />
+                                    <label class="form-check-label" for="allergy_@allergy.AllergyId">@allergy.Name</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Medications Section -->
+                <div class="mb-4">
+                    <h5>Select Medications</h5>
+                    <div class="row">
+                        @foreach (var medication in Model.Medications)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input"
+                                           id="medication_@medication.MedicationId"
+                                           name="SelectedMedications"
+                                           value="@medication.MedicationId"
+                                    @(Model.SelectedMedications.Contains(medication.MedicationId) ? "checked" : "") />
+                                    <label class="form-check-label" for="medication_@medication.MedicationId">@medication.Name</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Conditions Section -->
+                <div class="mb-4">
+                    <h5>Select Conditions</h5>
+                    <div class="row">
+                        @foreach (var condition in Model.Conditions)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input"
+                                           id="condition_@condition.ConditionId"
+                                           name="SelectedConditions"
+                                           value="@condition.ConditionId"
+                                    @(Model.SelectedConditions.Contains(condition.ConditionId) ? "checked" : "") />
+                                    <label class="form-check-label" for="condition_@condition.ConditionId">@condition.Name</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Hidden Field for Patient ID -->
+                <input type="hidden" asp-for="PatientId" />
+
+                <!-- Submit and Cancel Buttons -->
+                <div class="d-flex justify-content-between">
+                    <a asp-action="AdmittedPatients" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Update Patient Folder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

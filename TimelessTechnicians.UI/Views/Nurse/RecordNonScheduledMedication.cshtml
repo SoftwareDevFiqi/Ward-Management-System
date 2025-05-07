@@ -1,0 +1,74 @@
+﻿@model TimelessTechnicians.UI.ViewModel.NonScheduledMedicationViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewBag.Title = "Record Schedule 4 and Below Medication";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">@ViewBag.Title</h2>
+
+    <div class="card glassmorphic shadow-sm">
+        <div class="card-body">
+            <form asp-action="RecordNonScheduledMedication" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="MedicationId" class="control-label">Medication</label>
+                    <select asp-for="MedicationId" class="form-control" asp-items="ViewBag.MedicationList">
+                        <option value="">-- Select Medication --</option>
+                    </select>
+                    <span asp-validation-for="MedicationId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Dosage" class="control-label">Dosage</label>
+                    <input asp-for="Dosage" class="form-control" />
+                    <span asp-validation-for="Dosage" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AdministeredDate" class="control-label">Administered Date</label>
+                    <input asp-for="AdministeredDate" class="form-control" type="date" />
+                    <span asp-validation-for="AdministeredDate" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a asp-action="ListNonScheduledMedications" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .card {
+        border-radius: 15px;
+        background-color: #ffffff;
+        padding: 20px;
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-control {
+        border-radius: 10px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-danger {
+        font-size: 0.875rem; /* Smaller font size for validation messages */
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+</style>

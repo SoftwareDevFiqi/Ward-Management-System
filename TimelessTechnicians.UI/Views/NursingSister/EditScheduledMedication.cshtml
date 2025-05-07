@@ -1,0 +1,62 @@
+﻿@model TimelessTechnicians.UI.ViewModel.ScheduledMedicationViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Edit Scheduled Medication";
+}
+
+<h2>Edit Scheduled Medication</h2>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="EditScheduledMedication" method="post" class="form-horizontal">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="ScheduledMedicationId" />
+
+            <div class="form-group">
+                <label asp-for="MedicationId" class="control-label">Medication</label>
+                <select asp-for="MedicationId" class="form-control" asp-items="ViewBag.MedicationList">
+                    <option value="">-- Select Medication --</option>
+                </select>
+                <span asp-validation-for="MedicationId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Dosage" class="control-label">Dosage</label>
+                <input asp-for="Dosage" class="form-control" />
+                <span asp-validation-for="Dosage" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AdministeredDate" class="control-label">Administered Date</label>
+                <input asp-for="AdministeredDate" class="form-control" type="datetime-local" />
+                <span asp-validation-for="AdministeredDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AdministeredBy" class="control-label">Administered By</label>
+                <input asp-for="AdministeredBy" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ScheduledMedicationStatus" class="control-label">Status</label>
+                <select asp-for="ScheduledMedicationStatus" class="form-control">
+                    @foreach (var status in Enum.GetValues(typeof(ScheduledMedicationStatus)).Cast<ScheduledMedicationStatus>())
+                    {
+                            <option value="@status">@status.ToString()</option>
+                    }
+                </select>
+                <span asp-validation-for="ScheduledMedicationStatus" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a asp-action="ListScheduledMedications" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

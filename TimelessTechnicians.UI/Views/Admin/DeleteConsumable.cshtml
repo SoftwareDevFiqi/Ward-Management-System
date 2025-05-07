@@ -1,0 +1,155 @@
+﻿@model TimelessTechnicians.UI.Models.Consumable
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "DeleteConsumable";
+}
+
+<div class="container">
+    <div class="card glassmorphic">
+        <div class="card-body">
+            <h1 class="page-title">Delete Consumable</h1>
+
+            <h3 class="text-danger">Are you sure you want to delete this consumable?</h3>
+            <div class="mt-4">
+                <h4>Consumable Details</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Type)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Type)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Quantity)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.ExpiryDate)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ExpiryDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.DeletionStatus)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.DeletionStatus)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.CreatedDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.LastUpdatedDate)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.LastUpdatedDate)
+                    </dd>
+                </dl>
+
+                <form asp-action="DeleteConsumable" class="mt-4">
+                    <input type="hidden" asp-for="ConsumableId" />
+                    <div class="form-actions">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                        <a asp-action="Consumables" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Container for main content */
+    .container {
+        margin-top: 30px;
+        max-width: 800px;
+        padding: 15px;
+    }
+
+    /* Page title styling */
+    .page-title {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Card and glassmorphism styling */
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        background-color: white;
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Styling for detail display */
+    dt {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    dd {
+        margin-bottom: 15px;
+        font-size: 1rem;
+    }
+
+    /* Text and button styling */
+    .text-danger {
+        color: #dc3545; /* Default Bootstrap danger color */
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .form-actions {
+        margin-top: 20px;
+        text-align: right; /* Align buttons to the right */
+    }
+
+    /* Media queries for responsiveness */
+   
+</style>

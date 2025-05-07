@@ -1,0 +1,91 @@
+﻿@model IEnumerable<TimelessTechnicians.UI.ViewModel.PatientTreatmentListViewModel>
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewData["Title"] = "Patient Treatment List";
+}
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="card glassmorphic">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Patient Full Name</th>
+                        <th>Treatment Description</th>
+                        <th>Date Performed</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var treatment in Model)
+                    {
+                        <tr>
+                            <td>@treatment.PatientFullName</td>
+                            <td>@treatment.TreatmentDescription</td>
+                            <td>@treatment.DatePerformed.ToShortDateString()</td>
+                            <td>@treatment.TreatmentStatus</td> <!-- Display the status -->
+                            <td>
+                                <!-- Edit Action Link -->
+                                <a asp-action="EditTreatment" asp-route-id="@treatment.Id" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a asp-action="DeleteTreatment" asp-route-id="@treatment.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this treatment record?');">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 30px;
+        max-width: 800px;
+        padding: 15px;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        background-color: white;
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+    }
+
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #f8f9fa;
+    }
+
+    .btn {
+        margin-left: 5px; /* Small margin for buttons */
+    }
+
+    /* Additional styles for button sizes */
+    .btn-sm {
+        padding: 0.25rem 0.5rem; /* Adjust padding for small buttons */
+        font-size: 0.875rem; /* Adjust font size for small buttons */
+    }
+</style>

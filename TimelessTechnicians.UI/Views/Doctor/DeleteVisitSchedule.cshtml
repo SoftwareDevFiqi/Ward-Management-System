@@ -1,0 +1,34 @@
+﻿@model TimelessTechnicians.UI.Models.PatientVisitSchedule
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewData["Title"] = "Delete Visit Schedule";
+}
+
+<h2>Delete Visit Schedule</h2>
+
+<div class="alert alert-warning">
+    <h4>Warning!</h4>
+    <p>Are you sure you want to cancel the following visit schedule?</p>
+</div>
+
+<div>
+    <h5>Visit Details</h5>
+    <p><strong>Patient:</strong> @Model.AdmitPatient.Patient.FirstName @Model.AdmitPatient.Patient.LastName</p>
+    <p><strong>Scheduled Date:</strong> @Model.ScheduledDate.ToString("f")</p>
+    <p><strong>Visit Reason:</strong> @Model.VisitReason</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+</div>
+
+<form asp-action="DeleteVisitSchedule" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Yes, Cancel Visit</button>
+        <a asp-action="ListVisitSchedules" class="btn btn-secondary">No, Go Back</a>
+    </div>
+</form>
+
+@section Scripts {
+    // Add any additional scripts if needed
+}

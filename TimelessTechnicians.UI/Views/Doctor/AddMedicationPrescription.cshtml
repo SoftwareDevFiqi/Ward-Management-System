@@ -1,0 +1,84 @@
+﻿@model TimelessTechnicians.UI.Models.MedicationPrescription
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+@{
+    ViewBag.Title = "Add Medication Prescription";
+}
+
+<style>
+    .container {
+        max-width: 600px; /* Set max width for the form */
+        margin: 0 auto; /* Center the form on the page */
+        padding: 20px; /* Add some padding */
+        border: 1px solid #ddd; /* Add a light border */
+        border-radius: 5px; /* Rounded corners */
+        background-color: #f9f9f9; /* Light background color */
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Space between form groups */
+    }
+
+    .form-control {
+        width: 100%; /* Full width for inputs */
+        padding: 10px; /* Padding for inputs */
+        border: 1px solid #ccc; /* Light border for inputs */
+        border-radius: 4px; /* Rounded corners for inputs */
+    }
+
+    .btn {
+        width: 100%; /* Full width for buttons */
+        padding: 10px; /* Padding for buttons */
+        border: none; /* Remove border */
+        border-radius: 4px; /* Rounded corners for buttons */
+        margin-top: 10px; /* Space between buttons */
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white; /* White text */
+    }
+
+    .btn-secondary {
+        background-color: #6c757d; /* Bootstrap secondary color */
+        color: white; /* White text */
+    }
+
+    .text-danger {
+        color: red; /* Error message color */
+    }
+</style>
+
+<h1>@ViewBag.Title</h1>
+
+<div class="container">
+    <form asp-action="AddMedicationPrescription" method="post" class="mt-4">
+        <div class="form-group">
+            <label asp-for="AdmitPatientId" class="control-label">Admitted Patient</label>
+            <select asp-for="AdmitPatientId" class="form-control" asp-items="ViewBag.AdmittedPatients">
+                <option value="">Select a Patient</option>
+            </select>
+            <span asp-validation-for="AdmitPatientId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MedicationId" class="control-label">Medication</label>
+            <select asp-for="MedicationId" class="form-control" asp-items="ViewBag.Medications">
+                <option value="">Select a Medication</option>
+            </select>
+            <span asp-validation-for="MedicationId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Dosage" class="control-label">Dosage</label>
+            <input asp-for="Dosage" class="form-control" placeholder="e.g., 500mg" />
+            <span asp-validation-for="Dosage" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a asp-action="ListMedicationPrescriptions" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

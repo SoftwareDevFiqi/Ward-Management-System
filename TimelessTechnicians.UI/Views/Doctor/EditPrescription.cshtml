@@ -1,0 +1,90 @@
+﻿@model TimelessTechnicians.UI.Models.Prescription
+
+@{
+    ViewData["Title"] = "Edit Prescription";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Prescription</h2>
+
+    <form asp-action="EditPrescription" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="card glass-card">
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="PatientId" class="control-label">Patient</label>
+                    @Html.DropDownList("PatientId", (SelectList)ViewBag.PatientId, "Select a Patient", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PatientId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DoctorId" class="control-label">Doctor</label>
+                    @Html.DropDownList("DoctorId", (SelectList)ViewBag.DoctorId, "Select a Doctor", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DoctorId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Medication" class="control-label">Medication</label>
+                    @Html.EditorFor(model => model.Medication, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Medication, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Dosage" class="control-label">Dosage</label>
+                    @Html.EditorFor(model => model.Dosage, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Dosage, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DateWritten" class="control-label">Date Written</label>
+                    @Html.EditorFor(model => model.DateWritten, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessageFor(model => model.DateWritten, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label">Status</label>
+                    @Html.DropDownListFor(model => model.Status, new SelectList(Enum.GetValues(typeof(InstructionStatus)).Cast<InstructionStatus>()
+                             .Select(e => new SelectListItem
+                    {
+                        Text = e.ToString(),
+                        Value = ((int)e).ToString()
+                    }), "Value", "Text", Model.Status), "Select Status", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <a asp-action="ListPrescriptions" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-3">
+        <a asp-action="ListPrescriptions" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+
+<style>
+    /* Glassmorphism effect */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+</style>

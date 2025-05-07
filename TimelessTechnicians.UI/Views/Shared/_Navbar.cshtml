@@ -1,0 +1,140 @@
+﻿@* Include Font Awesome *@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<nav>
+    <ul class="navbar">
+        <li class="home-link">
+            @if (User.Identity.IsAuthenticated)
+            {
+                var userRole = User.IsInRole("ADMINISTRATOR") ? "ADMINISTRATOR" :
+                User.IsInRole("WARDADMIN") ? "WARDADMIN" :
+                User.IsInRole("PATIENT") ? "PATIENT" :
+                User.IsInRole("NURSE") ? "NURSE" :
+                User.IsInRole("NURSINGSISTER") ? "NURSINGSISTER" :
+                User.IsInRole("DOCTOR") ? "DOCTOR" :
+                User.IsInRole("SCRIPTMANAGER") ? "SCRIPTMANAGER" :
+                User.IsInRole("CONSUMABLESMANAGER") ? "CONSUMABLESMANAGER" :
+                "UNKNOWN";
+
+                <p>
+                    <i class="fas fa-user-shield"></i>
+                    @GetWelcomeMessage(userRole)
+                </p>
+            }
+        </li>
+        <li class="user-display">
+            @if (User.Identity.IsAuthenticated)
+            {
+                var firstName = User.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value;
+                var lastName = User.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value;
+                <span>@firstName @lastName</span>
+            }
+        </li>
+        <li class="time-display">
+            <span id="current-time"></span>
+        </li>
+    </ul>
+</nav>
+
+<style>
+    /* Basic resets */
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Navigation bar styling */
+    .navbar {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        background-color: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        height: 60px; /* Define a height for the navbar */
+        flex-wrap: wrap;
+    }
+
+    .navbar li {
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+    }
+
+    .home-link {
+        margin: 0;
+        padding: 0 20px; /* Add some padding for spacing */
+    }
+
+    .home-link p {
+        margin: 0;
+        font-size: 1em; /* Adjust font size as needed */
+        font-weight: bold;
+        color: #ffeb3b; /* Bright color for visibility */
+        display: flex;
+        align-items: center;
+        transition: color 0.3s;
+    }
+
+    .home-link i {
+        margin-right: 8px;
+        transition: color 0.3s;
+    }
+
+    .home-link p:hover i {
+        color: #ffeb3b; /* Change icon color on hover */
+        animation: bounce 1s ease infinite; /* Apply bounce animation */
+    }
+
+    .user-display, .time-display {
+        margin: 0;
+        padding: 0 20px; /* Add some padding for spacing */
+        color: #ffeb3b; /* Bright color for visibility */
+        font-size: 1em; /* Adjust font size as needed */
+        display: flex;
+        align-items: center;
+        text-align: center;
+        font-weight: bold;
+    }
+
+  
+</style>
+
+@functions {
+    private string GetWelcomeMessage(string role)
+    {
+        return role switch
+        {
+            "ADMINISTRATOR" => "Welcome Admin",
+            "WARDADMIN" => "Welcome Ward Admin",
+            "PATIENT" => "Welcome Patient",
+            "NURSE" => "Welcome Nurse",
+            "NURSINGSISTER" => "Welcome Nursing Sister",
+            "DOCTOR" => "Welcome Doctor",
+            "SCRIPTMANAGER" => "Welcome Script Manager",
+            "CONSUMABLESMANAGER" => "Welcome Consumables Manager",
+            _ => "Welcome"
+        };
+    }
+}
+
+<script>
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+
+    // Initialize clock on page load
+    updateClock();
+</script>

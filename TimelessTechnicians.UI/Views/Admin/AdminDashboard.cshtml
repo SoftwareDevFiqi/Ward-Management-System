@@ -1,0 +1,183 @@
+﻿@model TimelessTechnicians.UI.ViewModel.AdminDashboardViewModel
+@await Html.PartialAsync("_Navbar")
+@{
+    Layout = "_Layout";
+}
+@await Html.PartialAsync("_Notification")
+
+<!-- Dashboard Widgets -->
+<div class="container-fluid">
+    <div class="row dashboard-row">
+        <!-- Patient Statistics Widget -->
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-user-injured"></i> Patient Statistics
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Patients:</strong> @Model.TotalPatients</p>
+                    <p><strong>Patients Admitted Today:</strong> @Model.PatientsAdmittedToday</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bed Availability Widget -->
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-bed"></i> Bed Availability
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Beds:</strong> @Model.TotalBeds</p>
+                    <p><strong>Available Beds:</strong> @Model.AvailableBeds</p>
+                    <p><strong>Occupied Beds:</strong> @Model.OccupiedBeds</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Allergy Statistics Widget -->
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-allergies"></i> Allergy Statistics
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Allergies:</strong> @Model.TotalAllergies</p>
+                    <p><strong>Active Allergies:</strong> @Model.ActiveAllergies</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Statistics Widgets -->
+    <div class="row dashboard-row">
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-hospital"></i> Ward Statistics
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Wards:</strong> @Model.TotalWards</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-diagnoses"></i> Condition Statistics
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Conditions:</strong> @Model.TotalConditions</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-box"></i> Consumables Statistics
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Consumables:</strong> @Model.TotalConsumables</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medication Overview and Active Users Widgets -->
+    <div class="row dashboard-row">
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-pills"></i> Medication Overview
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Medications:</strong> @Model.TotalMedications</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-users"></i> Active Users
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Active Users:</strong> @Model.ActiveUsers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row dashboard-row">
+        <!-- Employee Statistics Widget -->
+        <div class="col-md-4">
+            <div class="card mb-4 dashboard-card">
+                <div class="card-header dashboard-card-header">
+                    <i class="fas fa-users"></i> Employee Statistics
+                </div>
+                <div class="card-body dashboard-card-body">
+                    <p><strong>Total Doctors:</strong> @Model.TotalDoctors</p>
+                    <p><strong>Total Ward Admins:</strong> @Model.TotalWardAdmins</p>
+                    <p><strong>Total Nurses:</strong> @Model.TotalNurses</p>
+                    <p><strong>Total Nursing Sisters:</strong> @Model.TotalNursingSisters</p>
+                    <p><strong>Total Script Managers:</strong> @Model.TotalScriptManagers</p>
+                    <p><strong>Total Consumable Managers:</strong> @Model.TotalConsumableManagers</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prescription Statistics Widget -->
+       
+    </div>
+</div>
+
+<style>
+    .dashboard-row {
+        margin-top: 20px;
+    }
+
+    .dashboard-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.3); /* Adjust for desired opacity */
+    }
+
+    .dashboard-card-header {
+        background-color: rgba(0, 123, 255, 0.8); /* Slightly transparent background */
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        text-align: center;
+        padding: 15px;
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        backdrop-filter: blur(10px);
+    }
+
+    .dashboard-card-body {
+        padding: 20px;
+        background-color: rgba(248, 249, 250, 0.7); /* Slightly transparent background */
+        border-radius: 0 0 10px 10px;
+    }
+
+    .dashboard-card p {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+        .dashboard-card p strong {
+            color: #343a40;
+        }
+
+    /* Hover Effects */
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+    }
+</style>

@@ -1,0 +1,117 @@
+﻿@model X.PagedList.IPagedList<TimelessTechnicians.UI.Models.ApplicationUser>
+
+
+@await Html.PartialAsync("_Notification")
+@await Html.PartialAsync("_Navbar")
+
+@{
+    ViewData["Title"] = "Patients";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+
+    <!-- Search and Sort Options -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <form asp-action="ListPatients" method="get" class="form-inline">
+            <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search by name, email, or address" aria-label="Search" />
+            <select name="sortOrder" class="form-control mx-2">
+                <option value="">Sort By</option>
+                <option value="firstName_desc">First Name (Descending)</option>
+                <option value="lastName">Last Name (Ascending)</option>
+                <option value="lastName_desc">Last Name (Descending)</option>
+                <option value="dateOfBirth">Date of Birth (Ascending)</option>
+                <option value="dateOfBirth_desc">Date of Birth (Descending)</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="ExportPatients" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["CurrentFilter"]" class="btn btn-success">Export to PDF</a>
+        </form>
+    </div>
+
+    <div class="glassmorphic">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Title</td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                            <td>@user.Email</td>
+                            <td>@user.Address</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">No patients found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <div>
+            @if (Model.HasPreviousPage)
+            {
+                <a asp-action="ListPatients" asp-route-page="@(Model.PageNumber - 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["CurrentFilter"]" class="btn btn-secondary">Previous</a>
+            }
+            @if (Model.HasNextPage)
+            {
+                <a asp-action="ListPatients" asp-route-page="@(Model.PageNumber + 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["CurrentFilter"]" class="btn btn-secondary">Next</a>
+            }
+        </div>
+        <div>
+            <p>Page @Model.PageNumber of @Model.PageCount</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: #f0f0f0; /* Light background for contrast */
+    }
+
+    .glassmorphic {
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        padding: 20px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 20px; /* Spacing from the title */
+    }
+
+    .table th, .table td {
+        vertical-align: middle; /* Center align the text vertically */
+    }
+
+    .table {
+        margin-bottom: 0; /* Remove bottom margin for better spacing */
+    }
+
+    .thead-dark th {
+        background-color: #343a40; /* Dark header background */
+        color: white; /* White text color */
+    }
+
+    .btn {
+        margin: 0 5px;
+    }
+</style>
